@@ -7,6 +7,9 @@ What you get
 
 Included resume and profile
 - `Resume (1) (1).pdf` — a PDF copy of the resume is included and embedded on the site in the "Resume" section. The site content (name, profile summary, experience, skills, projects, and contact information) has been updated to reflect Pulkit Arora's professional details.
+Notes on recent updates
+- The direct "Send message" contact form was removed and replaced with inline contact links (phone, email) for consistent behavior across devices.
+- New pages: `blogs.html` (blog posts) and `personal.html` (personal details) were added.
 
 How to view
 - Open `index.html` in any modern browser.
