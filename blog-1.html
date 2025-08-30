@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Understanding Git: Key Components and Internal Workings — Pulkit Arora</title>
+  <link href="styles.css" rel="stylesheet">
+  <style>
+    .blog-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 0;
+      line-height: 1.7;
+    }
+    
+    .blog-content h2 {
+      color: var(--primary-700);
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+    }
+    
+    .blog-content h3 {
+      color: var(--primary-600);
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      font-size: 1.4rem;
+    }
+    
+    .blog-content p {
+      margin-bottom: 1.2rem;
+    }
+    
+    .blog-content ul, .blog-content ol {
+      margin-bottom: 1.2rem;
+      padding-left: 1.5rem;
+    }
+    
+    .blog-content li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .code-block {
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    
+    .diagram {
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin: 2rem 0;
+      text-align: center;
+      overflow: hidden;
+    }
+    
+    .diagram svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    
+    .highlight-box {
+      background: linear-gradient(135deg, var(--accent), #e3f2fd);
+      border-left: 4px solid var(--primary);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    
+    .highlight-box h4 {
+      margin-top: 0;
+      color: var(--primary-700);
+      font-size: 1.2rem;
+    }
+    
+    .command {
+      background: var(--primary-700);
+      color: white;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+    
+    .file-structure {
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin: 1rem 0;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+    
+    .file-structure .folder {
+      color: var(--primary-700);
+      font-weight: bold;
+    }
+    
+    .file-structure .file {
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header"></header>
+  <main>
+    <div class="hero-wrapper">
+      <section class="section">
+        <div class="container">
+          <article class="blog-content">
+            <header class="blog-header">
+              <h1>Understanding Git: Key Components and Internal Workings</h1>
+              <p class="muted">A deep dive into Git's architecture, data structures, and how it manages your code history</p>
+              <div class="meta">
+                <time>September 1, 2025</time>
+                <span class="tags">
+                  <span class="tag">Git</span>
+                  <span class="tag">Version Control</span>
+                  <span class="tag">Software Engineering</span>
+                </span>
+              </div>
+            </header>
+            
+            <p>Git has revolutionized how we manage code, becoming the de facto standard for version control in software development. But what makes Git so powerful? Let's explore its internal architecture, key components, and understand how it efficiently manages your project's history.</p>
+
+            <h2>What is Git?</h2>
+            <p>Git is a distributed version control system designed by Linus Torvalds in 2005. Unlike centralized systems like SVN, Git gives every developer a complete copy of the repository, enabling offline work and robust branching strategies.</p>
+
+            <div class="highlight-box">
+              <h4>Key Git Principles</h4>
+              <ul>
+                <li><strong>Distributed:</strong> Every clone is a full repository</li>
+                <li><strong>Content-addressable:</strong> Files are identified by their content hash</li>
+                <li><strong>Immutable:</strong> Once committed, history cannot be changed</li>
+                <li><strong>Fast:</strong> Most operations are local</li>
+              </ul>
+            </div>
+
+            <h2>Git's Internal Architecture</h2>
+            <p>Git stores data in a simple but powerful structure. At its core, Git is a content-addressable file system with a version control layer on top.</p>
+
+            <h3>The .git Directory Structure</h3>
+            <div class="file-structure">
+              <div class="folder">.git/</div>
+              <div class="folder">├── objects/</div>
+              <div class="file">│   ├── 01/ (blob objects)</div>
+              <div class="file">│   ├── 02/ (tree objects)</div>
+              <div class="file">│   └── 03/ (commit objects)</div>
+              <div class="folder">├── refs/</div>
+              <div class="file">│   ├── heads/ (branch references)</div>
+              <div class="file">│   └── tags/ (tag references)</div>
+              <div class="file">├── HEAD (current branch pointer)</div>
+              <div class="file">├── index (staging area)</div>
+              <div class="file">└── config (repository configuration)</div>
+            </div>
+
+            <h3>Git Objects: The Building Blocks</h3>
+            <p>Git uses four types of objects to store data:</p>
+
+            <div class="diagram">
+              <svg width="600" height="400" viewBox="0 0 600 400">
+                <!-- Background -->
+                <rect width="600" height="400" fill="#f8f9fa" rx="8"/>
+                
+                <!-- Blob Object -->
+                <rect x="50" y="50" width="120" height="80" fill="#e3f2fd" stroke="#1976d2" stroke-width="2" rx="6"/>
+                <text x="110" y="85" text-anchor="middle" font-weight="bold" fill="#1976d2">Blob</text>
+                <text x="110" y="105" text-anchor="middle" font-size="12" fill="#666">File Content</text>
+                <text x="110" y="120" text-anchor="middle" font-size="10" fill="#999">a1b2c3d4</text>
+                
+                <!-- Tree Object -->
+                <rect x="220" y="50" width="120" height="80" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="6"/>
+                <text x="280" y="85" text-anchor="middle" font-weight="bold" fill="#7b1fa2">Tree</text>
+                <text x="280" y="105" text-anchor="middle" font-size="12" fill="#666">Directory</text>
+                <text x="280" y="120" text-anchor="middle" font-size="10" fill="#999">e5f6g7h8</text>
+                
+                <!-- Commit Object -->
+                <rect x="390" y="50" width="120" height="80" fill="#e8f5e8" stroke="#388e3c" stroke-width="2" rx="6"/>
+                <text x="450" y="85" text-anchor="middle" font-weight="bold" fill="#388e3c">Commit</text>
+                <text x="450" y="105" text-anchor="middle" font-size="12" fill="#666">Snapshot</text>
+                <text x="450" y="120" text-anchor="middle" font-size="10" fill="#999">i9j0k1l2</text>
+                
+                <!-- Tag Object -->
+                <rect x="560" y="50" width="120" height="80" fill="#fff3e0" stroke="#f57c00" stroke-width="2" rx="6"/>
+                <text x="620" y="85" text-anchor="middle" font-weight="bold" fill="#f57c00">Tag</text>
+                <text x="620" y="105" text-anchor="middle" font-size="12" fill="#666">Reference</text>
+                <text x="620" y="120" text-anchor="middle" font-size="10" fill="#999">m3n4o5p6</text>
+                
+                <!-- Arrows showing relationships -->
+                <line x1="170" y1="90" x2="220" y2="90" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <line x1="340" y1="90" x2="390" y2="90" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <line x1="510" y1="90" x2="560" y2="90" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+                
+                <!-- Arrow marker definition -->
+                <defs>
+                  <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+                  </marker>
+                </defs>
+                
+                <!-- Labels -->
+                <text x="300" y="200" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Git Object Types</text>
+                <text x="300" y="220" text-anchor="middle" font-size="14" fill="#666">Content-addressable storage system</text>
+              </svg>
+            </div>
+
+            <h4>1. Blob Objects</h4>
+            <p>Blobs store the actual content of files. Each file's content is compressed and stored as a blob object, identified by its SHA-1 hash.</p>
+            <div class="code-block">
+# Creating a blob object<br>
+echo "Hello, Git!" | git hash-object -w --stdin<br>
+# Output: 8ab686eafeb1f44702738c8b0f24f2567c36da6d
+            </div>
+
+            <h4>2. Tree Objects</h4>
+            <p>Trees represent directory structures, containing references to blobs and other trees. They store file names, permissions, and object hashes.</p>
+            <div class="code-block">
+# Tree object structure<br>
+100644 blob 8ab686eafeb1f44702738c8b0f24f2567c36da6d    README.md<br>
+100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a    hello.txt<br>
+040000 tree 03b4e6c5c2c235c06553427dc8f644e67f91d2b2    src/
+            </div>
+
+            <h4>3. Commit Objects</h4>
+            <p>Commits are snapshots of your project at a specific point in time. Each commit contains:</p>
+            <ul>
+              <li>A tree object (the snapshot)</li>
+              <li>Parent commit(s)</li>
+              <li>Author and committer information</li>
+              <li>Commit message</li>
+            </ul>
+
+            <h4>4. Tag Objects</h4>
+            <p>Tags provide human-readable names for specific commits, useful for marking releases or important milestones.</p>
+
+            <h2>How Git Manages History</h2>
+            <p>Git's history is a directed acyclic graph (DAG) of commits. Each commit points to its parent(s), creating a chain of snapshots.</p>
+
+            <div class="diagram">
+              <svg width="700" height="300" viewBox="0 0 700 300">
+                <!-- Background -->
+                <rect width="700" height="300" fill="#f8f9fa" rx="8"/>
+                
+                <!-- Commit nodes -->
+                <circle cx="100" cy="150" r="25" fill="#e8f5e8" stroke="#388e3c" stroke-width="3"/>
+                <text x="100" y="155" text-anchor="middle" font-weight="bold" fill="#388e3c">A</text>
+                
+                <circle cx="250" cy="150" r="25" fill="#e8f5e8" stroke="#388e3c" stroke-width="3"/>
+                <text x="250" y="155" text-anchor="middle" font-weight="bold" fill="#388e3c">B</text>
+                
+                <circle cx="400" cy="150" r="25" fill="#e8f5e8" stroke="#388e3c" stroke-width="3"/>
+                <text x="400" y="155" text-anchor="middle" font-weight="bold" fill="#388e3c">C</text>
+                
+                <circle cx="550" cy="150" r="25" fill="#e8f5e8" stroke="#388e3c" stroke-width="3"/>
+                <text x="550" y="155" text-anchor="middle" font-weight="bold" fill="#388e3c">D</text>
+                
+                <!-- Branch nodes -->
+                <circle cx="400" cy="80" r="20" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+                <text x="400" y="85" text-anchor="middle" font-weight="bold" fill="#1976d2">E</text>
+                
+                <circle cx="550" cy="220" r="20" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
+                <text x="550" y="225" text-anchor="middle" font-weight="bold" fill="#f57c00">F</text>
+                
+                <!-- Arrows -->
+                <line x1="125" y1="150" x2="225" y2="150" stroke="#666" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                <line x1="275" y1="150" x2="375" y2="150" stroke="#666" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                <line x1="425" y1="150" x2="525" y2="150" stroke="#666" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                <line x1="375" y1="100" x2="375" y2="130" stroke="#1976d2" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                <line x1="525" y1="170" x2="525" y2="200" stroke="#f57c00" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                
+                <!-- Arrow marker definition -->
+                <defs>
+                  <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+                  </marker>
+                </defs>
+                
+                <!-- Labels -->
+                <text x="100" y="200" text-anchor="middle" font-size="12" fill="#666">Initial</text>
+                <text x="250" y="200" text-anchor="middle" font-size="12" fill="#666">Feature</text>
+                <text x="400" y="200" text-anchor="middle" font-size="12" fill="#666">Merge</text>
+                <text x="550" y="200" text-anchor="middle" font-size="12" fill="#666">Current</text>
+                
+                <text x="400" y="50" text-anchor="middle" font-size="12" fill="#1976d2">Feature Branch</text>
+                <text x="550" y="250" text-anchor="middle" font-size="12" fill="#f57c00">Hotfix</text>
+                
+                <!-- Branch pointers -->
+                <rect x="520" y="140" width="60" height="20" fill="#e8f5e8" stroke="#388e3c" stroke-width="1" rx="3"/>
+                <text x="550" y="152" text-anchor="middle" font-size="10" fill="#388e3c">main</text>
+                
+                <rect x="370" y="60" width="60" height="20" fill="#e3f2fd" stroke="#1976d2" stroke-width="1" rx="3"/>
+                <text x="400" y="72" text-anchor="middle" font-size="10" fill="#1976d2">feature</text>
+                
+                <rect x="520" y="240" width="60" height="20" fill="#fff3e0" stroke="#f57c00" stroke-width="1" rx="3"/>
+                <text x="550" y="252" text-anchor="middle" font-size="10" fill="#f57c00">hotfix</text>
+              </svg>
+            </div>
+
+            <h2>Git's Three Areas</h2>
+            <p>Git uses three main areas to manage your files:</p>
+
+            <div class="diagram">
+              <svg width="100%" height="180" viewBox="0 0 600 180" preserveAspectRatio="xMidYMid meet">
+                <!-- Background -->
+                <rect width="600" height="180" fill="#f8f9fa" rx="8"/>
+                
+                <!-- Working Directory -->
+                <rect x="50" y="40" width="150" height="100" fill="#e3f2fd" stroke="#1976d2" stroke-width="2" rx="8"/>
+                <text x="125" y="70" text-anchor="middle" font-weight="bold" fill="#1976d2">Working Directory</text>
+                <text x="125" y="90" text-anchor="middle" font-size="12" fill="#666">Your files</text>
+                <text x="125" y="105" text-anchor="middle" font-size="12" fill="#666">on disk</text>
+                
+                <!-- Staging Area -->
+                <rect x="225" y="40" width="150" height="100" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="8"/>
+                <text x="300" y="70" text-anchor="middle" font-weight="bold" fill="#7b1fa2">Staging Area</text>
+                <text x="300" y="90" text-anchor="middle" font-size="12" fill="#666">Index file</text>
+                <text x="300" y="105" text-anchor="middle" font-size="12" fill="#666">(.git/index)</text>
+                
+                <!-- Repository -->
+                <rect x="400" y="40" width="150" height="100" fill="#e8f5e8" stroke="#388e3c" stroke-width="2" rx="8"/>
+                <text x="475" y="70" text-anchor="middle" font-weight="bold" fill="#388e3c">Repository</text>
+                <text x="475" y="90" text-anchor="middle" font-size="12" fill="#666">Git objects</text>
+                <text x="475" y="105" text-anchor="middle" font-size="12" fill="#666">(.git/objects)</text>
+                
+                <!-- Arrows -->
+                <line x1="200" y1="90" x2="225" y2="90" stroke="#666" stroke-width="2" marker-end="url(#arrowhead3)"/>
+                <line x1="375" y1="90" x2="400" y2="90" stroke="#666" stroke-width="2" marker-end="url(#arrowhead3)"/>
+                
+                <!-- Arrow marker definition -->
+                <defs>
+                  <marker id="arrowhead3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+                  </marker>
+                </defs>
+                
+                <!-- Command labels -->
+                <text x="212" y="75" text-anchor="middle" font-size="10" fill="#666">git add</text>
+                <text x="387" y="75" text-anchor="middle" font-size="10" fill="#666">git commit</text>
+              </svg>
+            </div>
+
+            <h3>1. Working Directory</h3>
+            <p>This is where you edit your files. It contains the actual files in your project directory.</p>
+
+            <h3>2. Staging Area (Index)</h3>
+            <p>The staging area is a file (`.git/index`) that stores information about what will go into your next commit. It acts as a buffer between your working directory and repository.</p>
+
+            <h3>3. Repository</h3>
+            <p>The repository contains all the Git objects (commits, trees, blobs) that make up your project's history.</p>
+
+            <h2>Key Git Commands and Their Effects</h2>
+
+            <h3>Basic Workflow Commands</h3>
+            <div class="code-block">
+# Check status<br>
+git status<br><br>
+
+# Add files to staging<br>
+git add filename.txt<br>
+git add .  # Add all changes<br><br>
+
+# Commit staged changes<br>
+git commit -m "Add new feature"<br><br>
+
+# View history<br>
+git log --oneline<br>
+git log --graph --oneline --all
+            </div>
+
+            <h3>Branching and Merging</h3>
+            <div class="code-block">
+# Create and switch to new branch<br>
+git checkout -b feature-branch<br><br>
+
+# Switch between branches<br>
+git checkout main<br>
+git checkout feature-branch<br><br>
+
+# Merge branch into current branch<br>
+git merge feature-branch<br><br>
+
+# Delete branch<br>
+git branch -d feature-branch
+            </div>
+
+            <h2>Advanced Git Concepts</h2>
+
+            <h3>Rebasing</h3>
+            <p>Rebasing moves your commits to a new base, creating a linear history. It's useful for keeping feature branches up-to-date with the main branch.</p>
+            <div class="code-block">
+# Rebase current branch onto main<br>
+git rebase main<br><br>
+
+# Interactive rebase (edit, squash, reorder commits)<br>
+git rebase -i HEAD~3
+            </div>
+
+            <h3>Cherry-picking</h3>
+            <p>Cherry-picking allows you to apply specific commits from one branch to another.</p>
+            <div class="code-block">
+# Apply a specific commit to current branch<br>
+git cherry-pick abc1234
+            </div>
+
+            <h3>Stashing</h3>
+            <p>Stashing temporarily saves your uncommitted changes, allowing you to switch branches or pull updates.</p>
+            <div class="code-block">
+# Save current changes<br>
+git stash<br><br>
+
+# List stashes<br>
+git stash list<br><br>
+
+# Apply most recent stash<br>
+git stash pop<br><br>
+
+# Apply specific stash<br>
+git stash apply stash@{1}
+            </div>
+
+            <h2>Git Best Practices</h2>
+
+            <div class="highlight-box">
+              <h4>Commit Guidelines</h4>
+              <ul>
+                <li>Write clear, descriptive commit messages</li>
+                <li>Use present tense ("Add feature" not "Added feature")</li>
+                <li>Keep commits atomic and focused</li>
+                <li>Reference issues or tickets when applicable</li>
+              </ul>
+            </div>
+
+            <div class="highlight-box">
+              <h4>Branching Strategy</h4>
+              <ul>
+                <li>Use feature branches for new development</li>
+                <li>Keep main/master branch stable</li>
+                <li>Delete merged branches to keep history clean</li>
+                <li>Use descriptive branch names (feature/user-auth, bugfix/login-error)</li>
+              </ul>
+            </div>
+
+            <h2>Common Git Workflows</h2>
+
+            <h3>Feature Branch Workflow</h3>
+            <ol>
+              <li>Create feature branch from main</li>
+              <li>Develop and commit changes</li>
+              <li>Push feature branch to remote</li>
+              <li>Create pull request/merge request</li>
+              <li>Review and merge to main</li>
+              <li>Delete feature branch</li>
+            </ol>
+
+            <h3>Git Flow</h3>
+            <p>A more structured workflow with multiple branch types:</p>
+            <ul>
+              <li><strong>main:</strong> Production-ready code</li>
+              <li><strong>develop:</strong> Integration branch for features</li>
+              <li><strong>feature/*:</strong> Individual feature development</li>
+              <li><strong>release/*:</strong> Preparing for release</li>
+              <li><strong>hotfix/*:</strong> Emergency production fixes</li>
+            </ul>
+
+            <h2>Conclusion</h2>
+            <p>Git's power lies in its simple yet sophisticated design. By understanding its internal components—blobs, trees, commits, and tags—you can better leverage Git's capabilities for your projects. The distributed nature, content-addressable storage, and branching model make Git an essential tool for modern software development.</p>
+
+            <p>Whether you're a beginner learning the basics or an experienced developer optimizing your workflow, Git provides the tools you need to manage code effectively. Remember, Git is designed to be fast, reliable, and flexible—don't be afraid to experiment with its features!</p>
+
+            <div class="highlight-box">
+              <h4>Next Steps</h4>
+              <p>To deepen your Git knowledge, explore:</p>
+              <ul>
+                <li>Git internals and plumbing commands</li>
+                <li>Advanced merging strategies</li>
+                <li>Git hooks for automation</li>
+                <li>Git hosting platforms (GitHub, GitLab, Bitbucket)</li>
+                <li>Git GUI tools and IDE integrations</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container">© <span id="year"></span> Pulkit Arora</div>
+  </footer>
+  <script src="https://unpkg.com/feather-icons"></script>
+  <script src="components/header.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

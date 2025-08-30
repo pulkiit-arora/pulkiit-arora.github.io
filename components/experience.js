@@ -1,4 +1,4 @@
-export function renderExperience() {
+function renderExperience() {
   const experiences = [
     {
       title: "Vice President — Morgan Stanley",
@@ -49,7 +49,7 @@ export function renderExperience() {
                   </div>
                 </div>
               </div>
-              ${exp.expanded ? '<button class="btn small toggle-exp">Show More</button>' : ''}
+              ${exp.expanded ? '<button class="btn small toggle-exp">Show Less</button>' : ''}
             </div>
           </div>
         `).join('')}

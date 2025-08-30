@@ -1,5 +1,5 @@
-export function renderProjects() {
-  const projects = [
+// Project data
+const projects = [
     {
       title: "AirFare Shop",
       description: "Itinerary construction and pricing service delivering flexible priced itineraries and lowest-fare calendar offers. Handled shopping and inventory modules with in-memory flight caches for low-latency access, supported multiple point-of-sale configurations, and processed mainframe updates over MQ and Tuxedo.",
@@ -12,6 +12,7 @@ export function renderProjects() {
     }
   ];
 
+function renderProjects() {
   return `
   <section id="projects" class="section projects">
     <div class="container">

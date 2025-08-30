@@ -5,37 +5,437 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Blogs — Pulkit Arora</title>
   <link href="styles.css" rel="stylesheet">
+  <style>
+    .blogs-container {
+      display: flex;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .sidebar {
+      width: 250px;
+      flex-shrink: 0;
+    }
+    
+    .main-content {
+      flex: 1;
+    }
+    
+    .tag-filter {
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      position: sticky;
+      top: 100px;
+    }
+    
+    .tag-filter h3 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: var(--primary-700);
+      font-size: 1.2rem;
+    }
+    
+    .tag-checkbox {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+    }
+    
+    .tag-checkbox input[type="checkbox"] {
+      margin-right: 0.5rem;
+      width: 16px;
+      height: 16px;
+    }
+    
+    .tag-checkbox label {
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    
+    .tag-checkbox:hover label {
+      color: var(--primary-700);
+    }
+    
+    .clear-filters {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background: var(--accent);
+      border: none;
+      border-radius: var(--radius);
+      color: var(--primary-700);
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+    
+    .clear-filters:hover {
+      background: var(--primary-700);
+      color: white;
+    }
+    
+    .blog-card.hidden {
+      display: none;
+    }
+    
+    .no-results {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+    }
+    
+    /* Full-width blog layout */
+    .blog-timeline {
+      display: block;
+      width: 100%;
+    }
+    
+    .blog-card {
+      display: flex;
+      width: 100%;
+      margin-bottom: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    .blog-date {
+      width: 80px;
+      flex-shrink: 0;
+      text-align: center;
+      padding: 1rem;
+      background: var(--accent);
+      border-radius: var(--radius);
+      margin-right: 1.5rem;
+    }
+    
+    .blog-date .month {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--primary-700);
+      text-transform: uppercase;
+    }
+    
+    .blog-date .day {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-700);
+      line-height: 1;
+    }
+    
+    .blog-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .blog-card h3 {
+      margin: 0;
+      font-size: 1.4rem;
+      width: 100%;
+    }
+    
+    .blog-card h3 a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      background: linear-gradient(to right, var(--primary-700), var(--primary-700));
+      background-size: 0 2px;
+      background-position: 0 100%;
+      background-repeat: no-repeat;
+      padding-bottom: 2px;
+      display: block;
+      width: 100%;
+    }
+    
+    .blog-card:hover {
+      transform: translateX(4px);
+      box-shadow: 0 12px 32px rgba(11,37,64,0.08);
+    }
+    
+    .blog-card:hover h3 a {
+      color: var(--primary-700);
+      background-size: 100% 2px;
+    }
+    
+    .blog-card p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0;
+      width: 100%;
+    }
+    
+    .blog-tags {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid var(--accent);
+      width: 100%;
+    }
+    
+    .tag {
+      font-size: 0.85rem;
+      padding: 0.35rem 1rem;
+      background: var(--accent);
+      border-radius: 999px;
+      color: var(--primary-700);
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    
+    .tag:hover {
+      background: var(--primary-700);
+      color: white;
+      transform: translateY(-1px);
+    }
+    
+    @media (max-width: 768px) {
+      .blogs-container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        order: 2;
+      }
+      
+      .main-content {
+        order: 1;
+      }
+      
+      .tag-filter {
+        position: static;
+        margin-top: 1rem;
+      }
+      
+      .blog-card {
+        flex-direction: column;
+        padding: 1.75rem;
+        gap: 1.5rem;
+      }
+      
+      .blog-date {
+        width: auto;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        padding: 1rem 2rem;
+      }
+      
+      .blog-date .month,
+      .blog-date .day {
+        font-size: 1rem;
+        display: inline;
+      }
+      
+      .blog-content {
+        text-align: center;
+      }
+      
+      .blog-card h3 {
+        font-size: 1.3rem;
+      }
+      
+      .blog-tags {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="logo" href="index.html">Pulkit Arora</a>
-      <nav class="main-nav" aria-label="Primary navigation">
-        <ul>
-          <li><a href="index.html"><i data-feather="arrow-left"></i><span>Back to Home</span></a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <header class="site-header"></header>
   <main>
-    <section class="section">
-      <div class="container">
-        <h1>Blogs</h1>
-        <article id="post1" class="card">
-          <h2>Designing Scalable Pricing Services</h2>
-          <p class="muted">June 2024</p>
-          <p>Long-form content placeholder: patterns, trade-offs, and implementation details for low-latency itinerary and pricing services.</p>
-        </article>
-        <article id="post2" class="card">
-          <h2>Introducing Generative AI to Legacy Systems</h2>
-          <p class="muted">March 2024</p>
-          <p>Long-form content placeholder: integrating language models into secure enterprise workflows.</p>
-        </article>
-      </div>
-    </section>
+    <div class="hero-wrapper">
+      <section class="section">
+        <div class="container">
+          <div class="blogs-container">
+            <!-- Sidebar with tag filters -->
+            <aside class="sidebar">
+              <div class="tag-filter">
+                <h3>Filter by Tags</h3>
+                <div class="tag-checkbox">
+                  <input type="checkbox" id="tag-git" value="Git">
+                  <label for="tag-git">Git</label>
+                </div>
+                <div class="tag-checkbox">
+                  <input type="checkbox" id="tag-version-control" value="Version Control">
+                  <label for="tag-version-control">Version Control</label>
+                </div>
+                <div class="tag-checkbox">
+                  <input type="checkbox" id="tag-software-engineering" value="Software Engineering">
+                  <label for="tag-software-engineering">Software Engineering</label>
+                </div>
+                <button class="clear-filters" onclick="clearFilters()">Clear All Filters</button>
+              </div>
+            </aside>
+            
+            <!-- Main content -->
+            <div class="main-content">
+              <div id="blogs-content"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
   <footer class="site-footer"><div class="container">© <span id="year"></span> Pulkit Arora</div></footer>
   <script src="https://unpkg.com/feather-icons"></script>
+  <script src="components/header.js"></script>
+  <script src="components/blogs.js"></script>
   <script src="script.js"></script>
+  <script>
+    // Blog data with tags
+    const blogData = [
+      {
+        title: "Understanding Git: Key Components and Internal Workings",
+        url: "git-internal-workings.html",
+        description: "A deep dive into Git's architecture, data structures, and how it manages your code history with interactive diagrams.",
+        date: { month: "September", day: "1" },
+        tags: ["Git", "Version Control", "Software Engineering"]
+      }
+    ];
+
+    // Render blogs for the blogs page with filtering functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const blogsContent = document.getElementById('blogs-content');
+      if (blogsContent) {
+        renderFilteredBlogs(blogData);
+        
+        // Setup tag filter event listeners
+        setupTagFilters();
+      }
+      
+      // Initialize Feather icons
+      if (typeof feather !== 'undefined') {
+        feather.replace();
+      }
+    });
+
+    function renderFilteredBlogs(blogs, showAll = true, initialLimit = 3) {
+      const blogsContent = document.getElementById('blogs-content');
+      if (!blogsContent) return;
+
+      const totalPosts = blogs.length;
+      const showLoadMore = showAll && initialLimit && totalPosts > initialLimit;
+
+      // If limit is provided, take only that many posts
+      const displayBlogs = initialLimit ? blogs.slice(0, initialLimit) : blogs;
+
+      blogsContent.innerHTML = `
+        <h1>All Blog Posts</h1>
+        <p class="muted">Filter and explore articles by topic</p>
+        <p class="blog-count">Showing ${displayBlogs.length} of ${totalPosts} total posts</p>
+        
+        <div class="blog-timeline">
+          ${displayBlogs.map(blog => `
+            <article class="card blog-card" data-tags="${blog.tags.join(',')}">
+              <div class="blog-date">
+                <span class="month">${blog.date.month}</span>
+                <span class="day">${blog.date.day}</span>
+              </div>
+              <div class="blog-content">
+                <h3><a href="${blog.url}">${blog.title}</a></h3>
+                <p>${blog.description}</p>
+                <div class="blog-tags">
+                  ${blog.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                </div>
+              </div>
+            </article>
+          `).join('')}
+        </div>
+
+        ${showLoadMore ? `
+          <p class="blog-cta">
+            <button class="btn primary" id="loadMoreBtn" data-current="${initialLimit}" data-total="${totalPosts}">
+              <i data-feather="plus"></i>
+              Load More Posts
+            </button>
+          </p>
+        ` : ''}
+      `;
+
+      // Re-initialize Feather icons
+      if (typeof feather !== 'undefined') {
+        feather.replace();
+      }
+    }
+
+    function setupTagFilters() {
+      const checkboxes = document.querySelectorAll('.tag-checkbox input[type="checkbox"]');
+      
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', filterBlogs);
+      });
+    }
+
+    function filterBlogs() {
+      const selectedTags = Array.from(document.querySelectorAll('.tag-checkbox input[type="checkbox"]:checked'))
+        .map(checkbox => checkbox.value);
+      
+      const blogCards = document.querySelectorAll('.blog-card');
+      let visibleCount = 0;
+      
+      blogCards.forEach(card => {
+        const cardTags = card.getAttribute('data-tags').split(',');
+        const shouldShow = selectedTags.length === 0 || selectedTags.some(tag => cardTags.includes(tag));
+        
+        if (shouldShow) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      
+      // Update count display
+      const countElement = document.querySelector('.blog-count');
+      if (countElement) {
+        const totalPosts = blogData.length;
+        countElement.textContent = `Showing ${visibleCount} of ${totalPosts} total posts`;
+      }
+      
+      // Show no results message if needed
+      showNoResultsMessage(visibleCount === 0);
+    }
+
+    function showNoResultsMessage(show) {
+      let noResults = document.querySelector('.no-results');
+      
+      if (show && !noResults) {
+        noResults = document.createElement('div');
+        noResults.className = 'no-results';
+        noResults.innerHTML = `
+          <h3>No posts found</h3>
+          <p>Try adjusting your filter criteria</p>
+        `;
+        document.querySelector('.blog-timeline').appendChild(noResults);
+      } else if (!show && noResults) {
+        noResults.remove();
+      }
+    }
+
+    function clearFilters() {
+      const checkboxes = document.querySelectorAll('.tag-checkbox input[type="checkbox"]');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+      });
+      filterBlogs();
+    }
+  </script>
 </body>
 </html>

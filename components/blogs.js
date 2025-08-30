@@ -1,50 +1,34 @@
-export function renderBlogs() {
+function renderBlogs(showAll = false, initialLimit = 2) {
+  var limit = showAll ? null : initialLimit; // Show initial limit posts if not showing all
   const blogs = [
     {
-      year: "2024",
+      year: "2025",
       posts: [
         {
-          title: "Modern Cloud Architecture Patterns",
-          url: "blog-cloud-architecture.html",
-          description: "Exploring microservices, event-driven architectures, and scalable cloud-native patterns.",
-          date: { month: "August", day: "15" },
-          tags: ["Cloud", "Architecture"]
-        },
-        {
-          title: "Designing Scalable Pricing Services",
-          url: "blog-pricing-services.html",
-          description: "Practical patterns and trade-offs when designing low-latency pricing and inventory services for travel platforms.",
-          date: { month: "June", day: "20" },
-          tags: ["Performance", "System Design"]
-        },
-        {
-          title: "Introducing Generative AI to Legacy Systems",
-          url: "blog-generative-ai.html",
-          description: "Integrating LLMs with existing enterprise workflows while maintaining security and observability.",
-          date: { month: "March", day: "15" },
-          tags: ["AI", "Enterprise"]
-        }
-      ]
-    },
-    {
-      year: "2023",
-      posts: [
-        {
-          title: "Engineering Leadership at Scale",
-          url: "blog-team-leadership.html",
-          description: "Lessons learned from leading distributed engineering teams and managing complex projects.",
-          date: { month: "December", day: "10" },
-          tags: ["Leadership", "Teams"]
+          title: "Understanding Git: Key Components and Internal Workings",
+          url: "git-internal-workings.html",
+          description: "A deep dive into Git's architecture, data structures, and how it manages your code history with interactive diagrams.",
+          date: { month: "September", day: "1" },
+          tags: ["Git", "Version Control", "Software Engineering"]
         }
       ]
     }
   ];
 
+  const totalPosts = blogs[0].posts.length;
+  const showLoadMore = showAll && limit && totalPosts > limit;
+
+  // If limit is provided, take only that many posts from the first year
+  if (limit) {
+    blogs[0].posts = blogs[0].posts.slice(0, limit);
+  }
+
   return `
   <section id="blogs" class="section blogs">
     <div class="container">
       <h2>Blogs</h2>
-      <p class="muted">Thoughts on software architecture, cloud, and generative AI.</p>
+      <p class="muted">Stay tuned for upcoming articles!</p>
+      ${showAll ? `<p class="blog-count">Showing ${blogs[0].posts.length} of ${totalPosts} total posts</p>` : ''}
       
       <div class="blog-timeline">
         ${blogs.map(yearGroup => `
@@ -67,12 +51,21 @@ export function renderBlogs() {
         `).join('')}
       </div>
 
-      <p class="blog-cta">
-        <a class="btn primary" href="blogs.html">
-          <i data-feather="book-open"></i>
-          View All Posts
-        </a>
-      </p>
+      ${showLoadMore ? `
+        <p class="blog-cta">
+          <button class="btn primary" id="loadMoreBtn" data-current="${limit}" data-total="${totalPosts}">
+            <i data-feather="plus"></i>
+            Load More Posts
+          </button>
+        </p>
+      ` : !showAll ? `
+        <p class="blog-cta">
+          <a class="btn primary" href="blogs.html">
+            <i data-feather="book-open"></i>
+            View All Posts
+          </a>
+        </p>
+      ` : ''}
     </div>
   </section>`;
 }

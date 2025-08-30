@@ -1,4 +1,4 @@
-export function renderHero() {
+function renderHero() {
   return `
   <div class="hero-wrapper">
     <section id="home" class="section hero">

@@ -1,4 +1,4 @@
-export function renderSkills() {
+function renderSkills() {
   const skills = [
     "Java Full Stack Development",
     "Generative AI",

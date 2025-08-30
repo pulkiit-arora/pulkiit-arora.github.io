@@ -1,4 +1,4 @@
-export function renderContact() {
+function renderContact() {
   return `
   <section id="contact" class="section contact">
     <div class="container">
