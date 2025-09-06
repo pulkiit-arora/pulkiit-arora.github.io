@@ -181,6 +181,7 @@ body{
   font-weight:700;
   background:linear-gradient(90deg, var(--primary-700), var(--primary));
   -webkit-background-clip:text;
+  background-clip:text;
   color:transparent;
   line-height:1.1;
 }
@@ -245,6 +246,55 @@ body{
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(102,194,255,0.2);
+}
+
+.featured-blog {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: var(--radius);
+  color: white;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(102,126,234,0.3);
+}
+
+.featured-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  opacity: 0.9;
+}
+
+.featured-blog-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.1);
+  transition: all 0.3s ease;
+}
+
+.featured-blog-link:hover {
+  background: rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+
+.featured-blog-link i {
+  width: 20px;
+  height: 20px;
+}
+
+.featured-blog-desc {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
 }
 
 .linkedin-icon{
@@ -435,6 +485,22 @@ body{
   margin: 0;
 }
 
+.blog-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.75rem 0;
+}
+
+.blog-meta .reading-time {
+  font-size: 0.85rem;
+  color: var(--muted);
+  background: var(--accent);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-weight: 500;
+}
+
 .blog-tags {
   display: flex;
   gap: 0.75rem;
@@ -579,7 +645,6 @@ body{
     height:18px;
     margin-right:0.2rem;
   }
-}
 }
 
 /* Focus outline for keyboard users */

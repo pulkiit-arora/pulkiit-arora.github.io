@@ -32,6 +32,14 @@ function renderHero() {
               <i data-feather="git-branch" title="Git"></i>
             </div>
           </div>
+          <div class="featured-blog">
+            <span class="featured-label">📚 Latest Blog</span>
+            <a href="kubernetes-basics.html" class="featured-blog-link">
+              <i data-feather="book-open"></i>
+              Kubernetes Basics: A Complete Guide
+            </a>
+            <p class="featured-blog-desc">Master container orchestration with interactive diagrams</p>
+          </div>
         </div>
       </div>
     </section>

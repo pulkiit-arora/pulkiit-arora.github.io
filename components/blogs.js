@@ -5,10 +5,27 @@ function renderBlogs(showAll = false, initialLimit = 2) {
       year: "2025",
       posts: [
         {
+          title: "Kubernetes Basics: A Complete Guide",
+          url: "kubernetes-basics.html",
+          description: "Master the fundamentals of container orchestration with interactive diagrams, real-world examples, and hands-on learning.",
+          date: { month: "September", day: "3" },
+          readingTime: "6 min read",
+          tags: ["Kubernetes", "DevOps", "Container Orchestration", "Cloud Native"]
+        },
+        {
+          title: "Helm Deep Dive: Kubernetes Package Management",
+          url: "helm-deep-dive.html",
+          description: "The ultimate guide to Helm charts, releases, repositories, and advanced deployment strategies for Kubernetes.",
+          date: { month: "September", day: "2" },
+          readingTime: "6 min read",
+          tags: ["Helm", "Kubernetes", "DevOps", "Package Management"]
+        },
+        {
           title: "Understanding Git: Key Components and Internal Workings",
           url: "git-internal-workings.html",
           description: "A deep dive into Git's architecture, data structures, and how it manages your code history with interactive diagrams.",
           date: { month: "September", day: "1" },
+          readingTime: "6 min read",
           tags: ["Git", "Version Control", "Software Engineering"]
         }
       ]
@@ -27,14 +44,14 @@ function renderBlogs(showAll = false, initialLimit = 2) {
   <section id="blogs" class="section blogs">
     <div class="container">
       <h2>Blogs</h2>
-      <p class="muted">Stay tuned for upcoming articles!</p>
+      <p class="muted">Explore technical articles and insights</p>
       ${showAll ? `<p class="blog-count">Showing ${blogs[0].posts.length} of ${totalPosts} total posts</p>` : ''}
       
       <div class="blog-timeline">
         ${blogs.map(yearGroup => `
           <div class="year-marker">${yearGroup.year}</div>
           ${yearGroup.posts.map(post => `
-            <article class="card blog-card">
+            <article class="blog-card">
               <div class="blog-date">
                 <span class="month">${post.date.month}</span>
                 <span class="day">${post.date.day}</span>
@@ -42,6 +59,9 @@ function renderBlogs(showAll = false, initialLimit = 2) {
               <div class="blog-content">
                 <h3><a href="${post.url}">${post.title}</a></h3>
                 <p>${post.description}</p>
+                <div class="blog-meta">
+                  <span class="reading-time">${post.readingTime}</span>
+                </div>
                 <div class="blog-tags">
                   ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                 </div>

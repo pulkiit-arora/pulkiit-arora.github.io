@@ -269,6 +269,30 @@
               <div class="tag-filter">
                 <h3>Filter by Tags</h3>
                 <div class="tag-checkbox">
+                  <input type="checkbox" id="tag-kubernetes" value="Kubernetes">
+                  <label for="tag-kubernetes">Kubernetes</label>
+                </div>
+                <div class="tag-checkbox">
+                  <input type="checkbox" id="tag-helm" value="Helm">
+                  <label for="tag-helm">Helm</label>
+                </div>
+                <div class="tag-checkbox">
+                  <input type="checkbox" id="tag-devops" value="DevOps">
+                  <label for="tag-devops">DevOps</label>
+                </div>
+                <div class="tag-checkbox">
+                  <input type="checkbox" id="tag-container-orchestration" value="Container Orchestration">
+                  <label for="tag-container-orchestration">Container Orchestration</label>
+                </div>
+                <div class="tag-checkbox">
+                  <input type="checkbox" id="tag-cloud-native" value="Cloud Native">
+                  <label for="tag-cloud-native">Cloud Native</label>
+                </div>
+                <div class="tag-checkbox">
+                  <input type="checkbox" id="tag-package-management" value="Package Management">
+                  <label for="tag-package-management">Package Management</label>
+                </div>
+                <div class="tag-checkbox">
                   <input type="checkbox" id="tag-git" value="Git">
                   <label for="tag-git">Git</label>
                 </div>
@@ -302,10 +326,27 @@
     // Blog data with tags
     const blogData = [
       {
+        title: "Kubernetes Basics: A Complete Guide",
+        url: "kubernetes-basics.html",
+        description: "Master the fundamentals of container orchestration with interactive diagrams, real-world examples, and hands-on learning.",
+        date: { month: "September", day: "3" },
+        readingTime: "6 min read",
+        tags: ["Kubernetes", "DevOps", "Container Orchestration", "Cloud Native"]
+      },
+      {
+        title: "Helm Deep Dive: Kubernetes Package Management",
+        url: "helm-deep-dive.html",
+        description: "The ultimate guide to Helm charts, releases, repositories, and advanced deployment strategies for Kubernetes.",
+        date: { month: "September", day: "2" },
+        readingTime: "6 min read",
+        tags: ["Helm", "Kubernetes", "DevOps", "Package Management"]
+      },
+      {
         title: "Understanding Git: Key Components and Internal Workings",
         url: "git-internal-workings.html",
         description: "A deep dive into Git's architecture, data structures, and how it manages your code history with interactive diagrams.",
         date: { month: "September", day: "1" },
+        readingTime: "6 min read",
         tags: ["Git", "Version Control", "Software Engineering"]
       }
     ];
@@ -351,6 +392,9 @@
               <div class="blog-content">
                 <h3><a href="${blog.url}">${blog.title}</a></h3>
                 <p>${blog.description}</p>
+                <div class="blog-meta">
+                  <span class="reading-time">${blog.readingTime}</span>
+                </div>
                 <div class="blog-tags">
                   ${blog.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                 </div>
