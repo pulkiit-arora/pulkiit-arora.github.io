@@ -22,6 +22,10 @@
       flex: 1;
     }
     
+    .blogs-header {
+      margin-bottom: 2rem;
+    }
+    
     .tag-filter {
       background: var(--surface);
       border: 1px solid var(--accent);
@@ -304,12 +308,28 @@
                   <input type="checkbox" id="tag-software-engineering" value="Software Engineering">
                   <label for="tag-software-engineering">Software Engineering</label>
                 </div>
+                <div class="tag-checkbox">
+                  <input type="checkbox" id="tag-quantum-computing" value="Quantum Computing">
+                  <label for="tag-quantum-computing">Quantum Computing</label>
+                </div>
+                <div class="tag-checkbox">
+                  <input type="checkbox" id="tag-physics" value="Physics">
+                  <label for="tag-physics">Physics</label>
+                </div>
+                <div class="tag-checkbox">
+                  <input type="checkbox" id="tag-future-tech" value="Future Technology">
+                  <label for="tag-future-tech">Future Technology</label>
+                </div>
                 <button class="clear-filters" onclick="clearFilters()">Clear All Filters</button>
               </div>
             </aside>
             
             <!-- Main content -->
             <div class="main-content">
+              <div class="blogs-header">
+                <h1>All Blog Posts</h1>
+                <p class="muted">Filter and explore articles by topic</p>
+              </div>
               <div id="blogs-content"></div>
             </div>
           </div>
@@ -325,6 +345,14 @@
   <script>
     // Blog data with tags
     const blogData = [
+      {
+        title: "The Quantum Realm Unveiled: Beyond Classical Computing",
+        url: "quantum-realm-unveiled.html",
+        description: "A journey into quantum computing - exploring qubits, superposition, and how quantum computers will revolutionize technology with interactive demonstrations.",
+        date: { month: "September", day: "13" },
+        readingTime: "8 min read",
+        tags: ["Quantum Computing", "Physics", "Future Technology", "Software Engineering"]
+      },
       {
         title: "Kubernetes Basics: A Complete Guide",
         url: "kubernetes-basics.html",
@@ -378,8 +406,6 @@
       const displayBlogs = initialLimit ? blogs.slice(0, initialLimit) : blogs;
 
       blogsContent.innerHTML = `
-        <h1>All Blog Posts</h1>
-        <p class="muted">Filter and explore articles by topic</p>
         <p class="blog-count">Showing ${displayBlogs.length} of ${totalPosts} total posts</p>
         
         <div class="blog-timeline">
@@ -416,6 +442,27 @@
       // Re-initialize Feather icons
       if (typeof feather !== 'undefined') {
         feather.replace();
+      }
+
+      // Add event listener for Load More button
+      const loadMoreBtn = document.getElementById('loadMoreBtn');
+      if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function() {
+          const currentCount = parseInt(this.getAttribute('data-current'));
+          const totalCount = parseInt(this.getAttribute('data-total'));
+          const newCount = Math.min(currentCount + 3, totalCount);
+          
+          // Show more blogs
+          renderFilteredBlogs(blogData, true, newCount);
+          
+          // If we've shown all blogs, hide the button
+          if (newCount >= totalCount) {
+            const newLoadMoreBtn = document.getElementById('loadMoreBtn');
+            if (newLoadMoreBtn) {
+              newLoadMoreBtn.style.display = 'none';
+            }
+          }
+        });
       }
     }
 

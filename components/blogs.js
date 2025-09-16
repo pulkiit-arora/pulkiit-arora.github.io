@@ -5,6 +5,14 @@ function renderBlogs(showAll = false, initialLimit = 2) {
       year: "2025",
       posts: [
         {
+          title: "The Quantum Realm Unveiled: Beyond Classical Computing",
+          url: "quantum-realm-unveiled.html",
+          description: "A journey into quantum computing - exploring qubits, superposition, and how quantum computers will revolutionize technology with interactive demonstrations.",
+          date: { month: "September", day: "13" },
+          readingTime: "8 min read",
+          tags: ["Quantum Computing", "Physics", "Future Technology", "Software Engineering"]
+        },
+        {
           title: "Kubernetes Basics: A Complete Guide",
           url: "kubernetes-basics.html",
           description: "Master the fundamentals of container orchestration with interactive diagrams, real-world examples, and hands-on learning.",
