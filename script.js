@@ -7,7 +7,7 @@ if (typeof feather !== 'undefined') {
 function setupNavigation() {
   const navToggle = document.getElementById('navToggle');
   const nav = document.querySelector('.main-nav');
-  
+
   navToggle?.addEventListener('click', () => {
     const expanded = navToggle.getAttribute('aria-expanded') === 'true';
     navToggle.setAttribute('aria-expanded', String(!expanded));
@@ -16,14 +16,14 @@ function setupNavigation() {
 
   // Handle smooth scrolling
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
+    anchor.addEventListener('click', function (e) {
       e.preventDefault();
       const targetId = this.getAttribute('href');
       if (targetId === '#') return;
 
       const target = document.querySelector(targetId);
       target?.scrollIntoView({ behavior: 'smooth' });
-      
+
       // Close mobile menu if open
       nav?.classList.remove('open');
       navToggle?.setAttribute('aria-expanded', 'false');
@@ -34,11 +34,11 @@ function setupNavigation() {
 // Setup experience section interactivity
 function setupExperienceToggles() {
   document.querySelectorAll('.toggle-exp').forEach(button => {
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function () {
       const expItem = this.closest('.exp-item');
       const details = expItem?.querySelector('.exp-details');
       const isExpanded = expItem?.getAttribute('data-expanded') === 'true';
-      
+
       if (expItem && details) {
         expItem.setAttribute('data-expanded', String(!isExpanded));
         details.hidden = isExpanded;
@@ -56,7 +56,7 @@ function setupFloatingHeader() {
 
   window.addEventListener('scroll', () => {
     const currentScrollY = window.scrollY;
-    
+
     if (currentScrollY > scrollThreshold) {
       if (currentScrollY > lastScrollY) {
         siteHeader?.classList.add('floating');
@@ -68,27 +68,28 @@ function setupFloatingHeader() {
     } else {
       siteHeader?.classList.remove('floating', 'visible');
     }
-    
+
     lastScrollY = currentScrollY;
   });
 }
 
 // Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   // Render components
   const headerElement = document.querySelector('header');
   const mainElement = document.querySelector('main');
-  
+
   if (headerElement) {
     headerElement.innerHTML = renderHeader();
   }
-  
+
   if (mainElement) {
     mainElement.innerHTML = `
       ${renderHero()}
       ${renderProjects()}
       ${renderExperience()}
       ${renderSkills()}
+      ${renderCertifications()}
       ${renderBlogs()}
       ${renderContact()}
     `;

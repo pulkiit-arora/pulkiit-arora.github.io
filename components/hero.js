@@ -16,7 +16,7 @@ function renderHero() {
           <div class="hero-actions">
             <a class="btn primary" href="#projects">
               <i data-feather="folder"></i>
-              View Projects
+              View Personal Projects
             </a>
             <a class="btn ghost" href="#contact">
               <i data-feather="mail"></i>

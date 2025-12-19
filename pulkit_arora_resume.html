@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulkit Arora - Resume</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+        }
+
+        .contact-info {
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .contact-info a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .job {
+            margin-bottom: 20px;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .job-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .job-company {
+            font-style: italic;
+        }
+
+        .job-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .job-description {
+            margin-top: 5px;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 0;
+            list-style-type: none;
+        }
+
+        .skill-item {
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .project {
+            margin-bottom: 15px;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        @media print {
+            @page {
+                margin: 0.5cm;
+                size: auto;
+            }
+
+            body {
+                padding: 1cm;
+                font-size: 11pt;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .no-print {
+                display: none;
+            }
+
+            a {
+                text-decoration: none;
+                color: #000;
+            }
+
+            /* Hide URL after links in print if unwanted, or keep them if useful. 
+               Usually ATS parsers read the href, visual humans don't need the URL text if it's already a link content 
+            */
+
+            .skill-item {
+                border: 1px solid #ccc;
+                /* Fallback if background doesn't print */
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Pulkit Arora</h1>
+        <div class="contact-info">
+            <strong>Vice President — Software Engineering</strong><br>
+            Bengaluru, India<br>
+            Phone: <a href="tel:+919902513725">(+91) 99025 13725</a> | Email: <a
+                href="mailto:pulkiit.arora@gmail.com">pulkiit.arora@gmail.com</a><br>
+            LinkedIn: <a href="https://www.linkedin.com/in/pulkit-arora-75696318/"
+                target="_blank">pulkit-arora-75696318</a> |
+            Portfolio: <a href="https://pulkiit-arora.github.io/index.html" target="_blank">pulkiit-arora.github.io</a>
+        </div>
+    </header>
+
+    <section class="section">
+        <h2>Professional Summary</h2>
+        <p>15+ years of experience building scalable systems and leading engineering teams. Specialized in Java Full
+            Stack development, cloud architecture, and technical leadership. Proven track record of spearheading cloud
+            adoption, enhancing system observability, and mentoring teams to drive technical excellence.</p>
+    </section>
+
+    <section class="section">
+        <h2>Skills</h2>
+        <ul class="skills-list">
+            <li class="skill-item">Java Full Stack Development</li>
+            <li class="skill-item">Generative AI</li>
+            <li class="skill-item">Cloud Technologies</li>
+            <li class="skill-item">Cloud Architecture</li>
+            <li class="skill-item">System Design</li>
+            <li class="skill-item">Database Design</li>
+            <li class="skill-item">Spring Boot</li>
+            <li class="skill-item">Hibernate</li>
+            <li class="skill-item">Angular</li>
+            <li class="skill-item">DevOps & CI/CD</li>
+            <li class="skill-item">Splunk</li>
+            <li class="skill-item">Grafana</li>
+            <li class="skill-item">JIRA</li>
+            <li class="skill-item">Git/GitHub</li>
+        </ul>
+    </section>
+
+    <section class="section">
+        <h2>Work Experience</h2>
+
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">Vice President</span> — <span class="job-company">Morgan Stanley</span>
+                </div>
+                <span class="job-date">10/2021 − Present</span>
+            </div>
+            <div class="job-description">
+                <p>Leading the architecture and development of mission-critical systems with a focus on scalability and
+                    resilience. Spearheaded the adoption of cloud-native patterns and enhanced system observability
+                    through Splunk and Grafana implementation. Mentoring engineering teams and driving technical
+                    excellence across projects.</p>
+                <ul>
+                    <li>Successfully migrated legacy systems to modern cloud architecture, resulting in 40% improved
+                        performance.</li>
+                    <li>Established robust CI/CD pipelines and DevOps practices, reducing deployment time by 60%.</li>
+                    <li><strong>Key Focus:</strong> Cloud Architecture, Team Leadership, System Design.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">Specialist</span> — <span class="job-company">Synechron Technologies</span>
+                </div>
+                <span class="job-date">12/2016 − 10/2021</span>
+            </div>
+            <div class="job-description">
+                <p>Served as the technical lead for investment banking solutions, focusing on high-performance trading
+                    systems and real-time data processing. Managed critical production environments and led system
+                    optimization initiatives.</p>
+                <ul>
+                    <li>Reduced system response time by 35% through architectural improvements and optimized database
+                        queries.</li>
+                    <li>Implemented automated monitoring solutions that decreased incident resolution time by 50%.</li>
+                    <li><strong>Key Focus:</strong> Performance Optimization, Production Support, Banking Systems.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">Module Lead</span> — <span class="job-company">Mindtree Limited</span>
+                </div>
+                <span class="job-date">11/2010 − 12/2016</span>
+            </div>
+            <div class="job-description">
+                <p>Orchestrated the development of enterprise software modules and established code quality standards.
+                    Led a team of developers in delivering robust solutions while ensuring best practices in software
+                    development.</p>
+                <ul>
+                    <li>Implemented automated testing framework that increased code coverage to 85%.</li>
+                    <li>Reduced defect rate by 40% through improved code review processes.</li>
+                    <li><strong>Key Focus:</strong> Technical Leadership, Code Quality, Process Improvement.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Certifications</h2>
+        <ul class="skills-list">
+            <li class="skill-item">AWS Certified Cloud Practitioner</li>
+        </ul>
+    </section>
+
+    <section class="section">
+        <h2>Key Projects</h2>
+
+        <div class="project">
+            <h4 style="margin-bottom: 5px;">Executive Services</h4>
+            <p style="margin-top: 0;"><em>Duration: 72 months</em></p>
+            <p>Platform aimed at C-suite executives to manage and diversify portfolios and executive-level services.
+                Built scalable backend modules and integrations to support executive workflows and reporting.</p>
+        </div>
+
+        <div class="project">
+            <h4 style="margin-bottom: 5px;">AirFare Shop</h4>
+            <p style="margin-top: 0;"><em>Duration: 50 months</em></p>
+            <p>Itinerary construction and pricing service delivering flexible priced itineraries and lowest-fare
+                calendar offers. Handled shopping and inventory modules with in-memory flight caches for low-latency
+                access, supported multiple point-of-sale configurations, and processed mainframe updates over MQ and
+                Tuxedo.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Interests</h2>
+        <p>Chess, Mentoring, Cloud Architecture, Traveling.</p>
+    </section>
+
+</body>
+
+</html>
