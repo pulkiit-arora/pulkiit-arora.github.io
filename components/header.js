@@ -10,6 +10,8 @@ function renderHeader() {
         <ul id="nav-list">
           <li><a href="index.html" ${currentPage === 'index.html' ? 'class="active"' : ''}>Home</a></li>
           <li><a href="index.html#projects">Projects</a></li>
+          <li><a href="index.html#personal-projects">Personal Projects</a></li>
+          <li><a href="index.html#certifications">Certifications</a></li>
           <li><a href="index.html#skills">Skills</a></li>
           <li><a href="Pulkit Arora - Resume.pdf" target="_blank" rel="noopener">Resume</a></li>
           <li><a href="blogs.html" ${currentPage === 'blogs.html' || currentPage.startsWith('blog-') ? 'class="active"' : ''}>Blogs</a></li>

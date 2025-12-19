@@ -653,3 +653,31 @@ body{
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
 .no-break{white-space:nowrap;text-decoration:none;color:inherit;background:var(--accent);padding:0.25rem 0.45rem;border-radius:8px}
+
+/* Project specific styles */
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  gap: 1rem;
+}
+
+.project-header h3 {
+  margin: 0;
+}
+
+.tag.personal {
+  background: #dbf4ff;
+  color: #0066cc;
+}
+
+.tag.professional {
+  background: #f0f0f0;
+  color: #555;
+}
+
+.project-meta {
+  margin-top: auto;
+  padding-top: 1rem;
+}
