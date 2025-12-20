@@ -19,7 +19,12 @@ function renderHeader() {
           <li><a href="index.html#contact">Contact</a></li>
         </ul>
       </nav>
-      <button id="navToggle" class="nav-toggle" aria-expanded="false" aria-controls="nav-list">Menu</button>
+      <div class="header-controls">
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle Dark Mode">
+          <i data-feather="moon"></i>
+        </button>
+        <button id="navToggle" class="nav-toggle" aria-expanded="false" aria-controls="nav-list">Menu</button>
+      </div>
     </div>
   </header>`;
 }

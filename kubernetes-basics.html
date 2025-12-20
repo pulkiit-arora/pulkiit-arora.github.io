@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,34 +8,35 @@
     <link href="styles.css" rel="stylesheet">
     <style>
         .interactive-diagram {
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
+            background: var(--surface);
+            border: 2px solid var(--border);
             border-radius: 12px;
             padding: 20px;
             margin: 20px 0;
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .interactive-diagram:hover {
             border-color: #007bff;
-            box-shadow: 0 4px 12px rgba(0,123,255,0.15);
+            box-shadow: 0 4px 12px var(--shadow);
             transform: translateY(-2px);
         }
-        
+
         .diagram-content {
             display: none;
             margin-top: 15px;
             padding: 15px;
-            background: white;
+            background: var(--bg);
             border-radius: 8px;
             border-left: 4px solid #007bff;
+            color: var(--text);
         }
-        
+
         .diagram-content.active {
             display: block;
         }
-        
+
         .flow-diagram {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -44,21 +46,21 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .flow-step {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             padding: 15px;
             margin: 10px 0;
             border-radius: 8px;
             border-left: 4px solid #ffd700;
             transition: all 0.3s ease;
         }
-        
+
         .flow-step:hover {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             transform: translateX(10px);
         }
-        
+
         .code-block {
             background: #2d3748;
             color: #e2e8f0;
@@ -68,22 +70,23 @@
             margin: 20px 0;
             overflow-x: auto;
         }
-        
+
         .concept-card {
-            background: white;
-            border: 1px solid #e2e8f0;
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 20px;
             margin: 20px 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px var(--shadow);
             transition: all 0.3s ease;
+            color: var(--text);
         }
-        
+
         .concept-card:hover {
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 25px var(--shadow);
             transform: translateY(-3px);
         }
-        
+
         .helm-link {
             background: linear-gradient(45deg, #ff6b6b, #ee5a24);
             color: white;
@@ -95,20 +98,20 @@
             font-weight: bold;
             transition: all 0.3s ease;
         }
-        
+
         .helm-link:hover {
             transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(238,90,36,0.4);
+            box-shadow: 0 8px 25px rgba(238, 90, 36, 0.4);
         }
-        
+
         .architecture-diagram {
-            background: #f1f5f9;
+            background: var(--accent);
             border-radius: 12px;
             padding: 25px;
             margin: 25px 0;
             text-align: center;
         }
-        
+
         .node-representation {
             display: inline-block;
             background: #3b82f6;
@@ -118,7 +121,7 @@
             border-radius: 8px;
             font-weight: bold;
         }
-        
+
         .pod-representation {
             display: inline-block;
             background: #10b981;
@@ -128,7 +131,7 @@
             border-radius: 6px;
             font-size: 0.9em;
         }
-        
+
         .service-representation {
             display: inline-block;
             background: #f59e0b;
@@ -138,23 +141,24 @@
             border-radius: 6px;
             font-size: 0.9em;
         }
-        
+
         .interactive-quiz {
-            background: #fef3c7;
+            background: var(--bg);
             border: 2px solid #f59e0b;
             border-radius: 12px;
             padding: 20px;
             margin: 25px 0;
+            color: var(--text);
         }
-        
+
         .quiz-question {
             font-weight: bold;
             margin-bottom: 15px;
-            color: #92400e;
+            color: var(--primary-700);
         }
-        
+
         .quiz-option {
-            background: white;
+            background: var(--surface);
             padding: 10px 15px;
             margin: 8px 0;
             border-radius: 6px;
@@ -162,25 +166,25 @@
             transition: all 0.2s ease;
             border: 2px solid transparent;
         }
-        
+
         .quiz-option:hover {
             border-color: #f59e0b;
-            background: #fef3c7;
+            background: var(--accent);
         }
-        
+
         .quiz-option.correct {
             border-color: #10b981;
-            background: #d1fae5;
+            background: rgba(16, 185, 129, 0.1);
         }
-        
+
         .quiz-option.incorrect {
             border-color: #ef4444;
-            background: #fee2e2;
+            background: rgba(239, 68, 68, 0.1);
         }
-        
+
         .reading-time {
-            background: #e0f2fe;
-            color: #0277bd;
+            background: var(--accent);
+            color: var(--primary-700);
             padding: 10px 20px;
             border-radius: 20px;
             display: inline-block;
@@ -189,70 +193,76 @@
         }
     </style>
 </head>
+
 <body>
     <header class="site-header"></header>
-    
+
     <main>
         <section class="section">
             <div class="container">
                 <div class="reading-time">⏱️ 6 min read</div>
-                
+
                 <div style="margin-bottom: 20px;">
-                    <a href="blogs.html" style="color: #007bff; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                    <a href="blogs.html"
+                        style="color: var(--primary-700); text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
                         ← Back to Blogs
                     </a>
                 </div>
-                
+
                 <h1>🚀 Kubernetes Basics: A Complete Guide</h1>
-                <p class="muted">Master the fundamentals of container orchestration with interactive diagrams and real-world examples</p>
-                
+                <p class="muted">Master the fundamentals of container orchestration with interactive diagrams and
+                    real-world examples</p>
+
                 <div class="concept-card">
                     <h3>🎯 What is Kubernetes?</h3>
-                    <p>Kubernetes (K8s) is an open-source container orchestration platform that automates the deployment, scaling, and management of containerized applications. Think of it as the "operating system" for your cloud-native applications.</p>
-                    
+                    <p>Kubernetes (K8s) is an open-source container orchestration platform that automates the
+                        deployment, scaling, and management of containerized applications. Think of it as the "operating
+                        system" for your cloud-native applications.</p>
+
                     <div class="interactive-diagram" onclick="toggleDiagram('what-is-k8s')">
                         <h4>🔍 Click to explore: Kubernetes vs Traditional Deployment</h4>
                         <div id="what-is-k8s" class="diagram-content">
-                                                <div style="display: flex; justify-content: space-between; margin: 20px 0;">
-                        <div style="text-align: center; flex: 1;">
-                            <h5>❌ Traditional Way</h5>
-                            <div style="background: #fee2e2; padding: 15px; border-radius: 8px; margin: 10px;">
-                                <p style="margin: 8px 0; text-align: left;">• Manual deployment</p>
-                                <p style="margin: 8px 0; text-align: left;">• No auto-scaling</p>
-                                <p style="margin: 8px 0; text-align: left;">• Hard to manage</p>
-                                <p style="margin: 8px 0; text-align: left;">• Single point of failure</p>
+                            <div style="display: flex; justify-content: space-between; margin: 20px 0;">
+                                <div style="text-align: center; flex: 1;">
+                                    <h5>❌ Traditional Way</h5>
+                                    <div style="background: #fee2e2; padding: 15px; border-radius: 8px; margin: 10px;">
+                                        <p style="margin: 8px 0; text-align: left;">• Manual deployment</p>
+                                        <p style="margin: 8px 0; text-align: left;">• No auto-scaling</p>
+                                        <p style="margin: 8px 0; text-align: left;">• Hard to manage</p>
+                                        <p style="margin: 8px 0; text-align: left;">• Single point of failure</p>
+                                    </div>
+                                </div>
+                                <div style="text-align: center; flex: 1;">
+                                    <h5>✅ With Kubernetes</h5>
+                                    <div style="background: #d1fae5; padding: 15px; border-radius: 8px; margin: 10px;">
+                                        <p style="margin: 8px 0; text-align: left;">• Automated deployment</p>
+                                        <p style="margin: 8px 0; text-align: left;">• Auto-scaling</p>
+                                        <p style="margin: 8px 0; text-align: left;">• Self-healing</p>
+                                        <p style="margin: 8px 0; text-align: left;">• High availability</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div style="text-align: center; flex: 1;">
-                            <h5>✅ With Kubernetes</h5>
-                            <div style="background: #d1fae5; padding: 15px; border-radius: 8px; margin: 10px;">
-                                <p style="margin: 8px 0; text-align: left;">• Automated deployment</p>
-                                <p style="margin: 8px 0; text-align: left;">• Auto-scaling</p>
-                                <p style="margin: 8px 0; text-align: left;">• Self-healing</p>
-                                <p style="margin: 8px 0; text-align: left;">• High availability</p>
-                            </div>
-                        </div>
-                    </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="concept-card">
                     <h3>🏗️ Kubernetes Architecture</h3>
-                    <p>Kubernetes follows a master-worker node architecture where the control plane manages the worker nodes that run your applications.</p>
-                    
+                    <p>Kubernetes follows a master-worker node architecture where the control plane manages the worker
+                        nodes that run your applications.</p>
+
                     <div class="architecture-diagram">
                         <h4>🏛️ Control Plane (Master Node)</h4>
                         <div class="node-representation">API Server</div>
                         <div class="node-representation">etcd</div>
                         <div class="node-representation">Scheduler</div>
                         <div class="node-representation">Controller Manager</div>
-                        
+
                         <h4 style="margin-top: 30px;">🖥️ Worker Nodes</h4>
                         <div class="node-representation">Node 1</div>
                         <div class="node-representation">Node 2</div>
                         <div class="node-representation">Node 3</div>
-                        
+
                         <div style="margin-top: 20px;">
                             <div class="pod-representation">Pod A</div>
                             <div class="pod-representation">Pod B</div>
@@ -264,22 +274,23 @@
 
                 <div class="concept-card">
                     <h3>🔧 Core Concepts</h3>
-                    
+
                     <div class="interactive-diagram" onclick="toggleDiagram('pods')">
                         <h4>📦 Pods - The Smallest Deployable Units</h4>
                         <div id="pods" class="diagram-content">
-                            <p><strong>Pods</strong> are the smallest deployable units in Kubernetes. They can contain one or more containers and share the same network namespace.</p>
+                            <p><strong>Pods</strong> are the smallest deployable units in Kubernetes. They can contain
+                                one or more containers and share the same network namespace.</p>
                             <div class="code-block">
-apiVersion: v1
-kind: Pod
-metadata:
-  name: my-app-pod
-spec:
-  containers:
-  - name: my-app
-    image: nginx:latest
-    ports:
-    - containerPort: 80
+                                apiVersion: v1
+                                kind: Pod
+                                metadata:
+                                name: my-app-pod
+                                spec:
+                                containers:
+                                - name: my-app
+                                image: nginx:latest
+                                ports:
+                                - containerPort: 80
                             </div>
                         </div>
                     </div>
@@ -287,25 +298,26 @@ spec:
                     <div class="interactive-diagram" onclick="toggleDiagram('deployments')">
                         <h4>🚀 Deployments - Managing Pod Lifecycle</h4>
                         <div id="deployments" class="diagram-content">
-                            <p><strong>Deployments</strong> provide declarative updates for Pods and ReplicaSets, enabling rolling updates and rollbacks.</p>
+                            <p><strong>Deployments</strong> provide declarative updates for Pods and ReplicaSets,
+                                enabling rolling updates and rollbacks.</p>
                             <div class="code-block">
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: my-app-deployment
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: my-app
-  template:
-    metadata:
-      labels:
-        app: my-app
-    spec:
-      containers:
-      - name: my-app
-        image: nginx:latest
+                                apiVersion: apps/v1
+                                kind: Deployment
+                                metadata:
+                                name: my-app-deployment
+                                spec:
+                                replicas: 3
+                                selector:
+                                matchLabels:
+                                app: my-app
+                                template:
+                                metadata:
+                                labels:
+                                app: my-app
+                                spec:
+                                containers:
+                                - name: my-app
+                                image: nginx:latest
                             </div>
                         </div>
                     </div>
@@ -313,20 +325,21 @@ spec:
                     <div class="interactive-diagram" onclick="toggleDiagram('services')">
                         <h4>🔗 Services - Network Abstraction</h4>
                         <div id="services" class="diagram-content">
-                            <p><strong>Services</strong> define a logical set of Pods and a policy by which to access them, providing stable IP addresses and DNS names.</p>
+                            <p><strong>Services</strong> define a logical set of Pods and a policy by which to access
+                                them, providing stable IP addresses and DNS names.</p>
                             <div class="code-block">
-apiVersion: v1
-kind: Service
-metadata:
-  name: my-app-service
-spec:
-  selector:
-    app: my-app
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
-  type: ClusterIP
+                                apiVersion: v1
+                                kind: Service
+                                metadata:
+                                name: my-app-service
+                                spec:
+                                selector:
+                                app: my-app
+                                ports:
+                                - protocol: TCP
+                                port: 80
+                                targetPort: 80
+                                type: ClusterIP
                             </div>
                         </div>
                     </div>
@@ -354,11 +367,16 @@ spec:
                 <div class="concept-card">
                     <h3>💡 Key Benefits</h3>
                     <ul style="padding-left: 20px;">
-                        <li style="margin: 10px 0;"><strong>🔄 Self-healing:</strong> Automatically restarts failed containers</li>
-                        <li style="margin: 10px 0;"><strong>📈 Auto-scaling:</strong> Scales applications based on demand</li>
-                        <li style="margin: 10px 0;"><strong>🌐 Load balancing:</strong> Distributes traffic across Pods</li>
-                        <li style="margin: 10px 0;"><strong>🔒 Security:</strong> Built-in RBAC and network policies</li>
-                        <li style="margin: 10px 0;"><strong>📦 Portability:</strong> Run anywhere Kubernetes is supported</li>
+                        <li style="margin: 10px 0;"><strong>🔄 Self-healing:</strong> Automatically restarts failed
+                            containers</li>
+                        <li style="margin: 10px 0;"><strong>📈 Auto-scaling:</strong> Scales applications based on
+                            demand</li>
+                        <li style="margin: 10px 0;"><strong>🌐 Load balancing:</strong> Distributes traffic across Pods
+                        </li>
+                        <li style="margin: 10px 0;"><strong>🔒 Security:</strong> Built-in RBAC and network policies
+                        </li>
+                        <li style="margin: 10px 0;"><strong>📦 Portability:</strong> Run anywhere Kubernetes is
+                            supported</li>
                     </ul>
                 </div>
 
@@ -369,7 +387,7 @@ spec:
                     <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Container</div>
                     <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Node</div>
                     <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Service</div>
-                    
+
                     <div class="quiz-question" style="margin-top: 20px;">Which component manages Pod scheduling?</div>
                     <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">API Server</div>
                     <div class="quiz-option" onclick="checkAnswer(this, 'correct')">Scheduler</div>
@@ -379,22 +397,28 @@ spec:
 
                 <div class="concept-card">
                     <h3>🔗 Helm: The Package Manager for Kubernetes</h3>
-                    <p>While Kubernetes provides the foundation, Helm simplifies application deployment by packaging applications into charts. Helm is essential for managing complex applications and their dependencies.</p>
-                    
+                    <p>While Kubernetes provides the foundation, Helm simplifies application deployment by packaging
+                        applications into charts. Helm is essential for managing complex applications and their
+                        dependencies.</p>
+
                     <a href="helm-deep-dive.html" class="helm-link">
                         🚀 Read the Complete Helm Guide →
                     </a>
-                    
-                    <p><em>Learn about Helm charts, releases, repositories, and advanced deployment strategies in our dedicated Helm blog post.</em></p>
+
+                    <p><em>Learn about Helm charts, releases, repositories, and advanced deployment strategies in our
+                            dedicated Helm blog post.</em></p>
                 </div>
 
                 <div class="concept-card">
                     <h3>🚀 Getting Started</h3>
                     <p>Ready to dive into Kubernetes? Here are your next steps:</p>
                     <ol style="padding-left: 25px;">
-                        <li style="margin: 10px 0;"><strong>Install kubectl</strong> - The Kubernetes command-line tool</li>
-                        <li style="margin: 10px 0;"><strong>Set up a local cluster</strong> - Use Minikube or Docker Desktop</li>
-                        <li style="margin: 10px 0;"><strong>Deploy your first app</strong> - Start with a simple nginx deployment</li>
+                        <li style="margin: 10px 0;"><strong>Install kubectl</strong> - The Kubernetes command-line tool
+                        </li>
+                        <li style="margin: 10px 0;"><strong>Set up a local cluster</strong> - Use Minikube or Docker
+                            Desktop</li>
+                        <li style="margin: 10px 0;"><strong>Deploy your first app</strong> - Start with a simple nginx
+                            deployment</li>
                         <li style="margin: 10px 0;"><strong>Explore the dashboard</strong> - Visualize your cluster</li>
                         <li style="margin: 10px 0;"><strong>Learn Helm</strong> - Master package management</li>
                     </ol>
@@ -403,10 +427,14 @@ spec:
                 <div class="concept-card">
                     <h3>📚 Additional Resources</h3>
                     <ul style="padding-left: 20px;">
-                        <li style="margin: 10px 0;"><a href="https://kubernetes.io/docs/" target="_blank">Official Kubernetes Documentation</a></li>
-                        <li style="margin: 10px 0;"><a href="https://helm.sh/docs/" target="_blank">Helm Documentation</a></li>
-                        <li style="margin: 10px 0;"><a href="https://github.com/kubernetes/examples" target="_blank">Kubernetes Examples</a></li>
-                        <li style="margin: 10px 0;"><a href="https://play.k8s.io/" target="_blank">Kubernetes Playground</a></li>
+                        <li style="margin: 10px 0;"><a href="https://kubernetes.io/docs/" target="_blank">Official
+                                Kubernetes Documentation</a></li>
+                        <li style="margin: 10px 0;"><a href="https://helm.sh/docs/" target="_blank">Helm
+                                Documentation</a></li>
+                        <li style="margin: 10px 0;"><a href="https://github.com/kubernetes/examples"
+                                target="_blank">Kubernetes Examples</a></li>
+                        <li style="margin: 10px 0;"><a href="https://play.k8s.io/" target="_blank">Kubernetes
+                                Playground</a></li>
                     </ul>
                 </div>
             </div>
@@ -425,16 +453,16 @@ spec:
             const content = document.getElementById(id);
             content.classList.toggle('active');
         }
-        
+
         function checkAnswer(element, result) {
             // Remove previous classes
             document.querySelectorAll('.quiz-option').forEach(option => {
                 option.classList.remove('correct', 'incorrect');
             });
-            
+
             // Add result class
             element.classList.add(result);
-            
+
             // Show feedback
             if (result === 'correct') {
                 element.style.borderColor = '#10b981';
@@ -444,7 +472,7 @@ spec:
                 element.style.background = '#fee2e2';
             }
         }
-        
+
         // Auto-hide quiz feedback after 3 seconds
         function resetQuiz() {
             document.querySelectorAll('.quiz-option').forEach(option => {
@@ -453,9 +481,10 @@ spec:
                 option.style.background = 'white';
             });
         }
-        
+
         // Set up auto-reset for quiz
         setInterval(resetQuiz, 5000);
     </script>
 </body>
+
 </html>

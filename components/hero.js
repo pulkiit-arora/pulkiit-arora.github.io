@@ -18,6 +18,10 @@ function renderHero() {
               <i data-feather="folder"></i>
               View Projects
             </a>
+            <a class="btn ghost" href="Pulkit Arora - Resume.pdf" target="_blank" rel="noopener">
+              <i data-feather="file-text"></i>
+              Resume
+            </a>
             <a class="btn ghost" href="#contact">
               <i data-feather="mail"></i>
               Contact Me

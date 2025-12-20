@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +10,14 @@
         .quantum-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 40px 0;
-            margin: -20px -20px 30px -20px;
+            padding: calc(var(--header-height) + 2rem) 0 3rem 0;
+            margin: 0 0 30px 0;
             border-radius: 0 0 20px 20px;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
-        
+
         .quantum-header::before {
             content: '';
             position: absolute;
@@ -26,14 +27,14 @@
             bottom: 0;
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.3"><animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/></circle><circle cx="80" cy="30" r="1.5" fill="white" opacity="0.2"><animate attributeName="opacity" values="0.2;0.8;0.2" dur="3s" repeatCount="indefinite"/></circle><circle cx="60" cy="70" r="1" fill="white" opacity="0.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.5s" repeatCount="indefinite"/></circle></svg>');
         }
-        
+
         .quantum-header h1 {
             margin: 0;
             font-size: 2.5em;
             position: relative;
             z-index: 1;
         }
-        
+
         .quantum-header p {
             margin: 10px 0 0 0;
             opacity: 0.9;
@@ -41,22 +42,23 @@
             position: relative;
             z-index: 1;
         }
-        
+
         .quantum-concept {
-            background: white;
-            border: 1px solid #e2e8f0;
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 25px;
             margin: 25px 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px var(--shadow);
             transition: all 0.3s ease;
+            color: var(--text);
         }
-        
+
         .quantum-concept:hover {
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 25px var(--shadow);
             transform: translateY(-3px);
         }
-        
+
         .interactive-comparison {
             background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
             color: white;
@@ -64,10 +66,10 @@
             border-radius: 15px;
             margin: 30px 0;
         }
-        
+
         .comparison-toggle {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             color: white;
             padding: 15px 30px;
             border-radius: 25px;
@@ -77,32 +79,32 @@
             transition: all 0.3s ease;
             display: inline-block;
         }
-        
+
         .comparison-toggle:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
         }
-        
+
         .comparison-content {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             padding: 20px;
             margin: 20px 0;
             display: none;
         }
-        
+
         .comparison-content.active {
             display: block;
         }
-        
+
         .qubit-simulator {
-            background: #f1f5f9;
+            background: var(--accent);
             border-radius: 12px;
             padding: 25px;
             margin: 25px 0;
             text-align: center;
         }
-        
+
         .qubit-visual {
             width: 100px;
             height: 100px;
@@ -112,25 +114,32 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .qubit-0 {
             background: linear-gradient(45deg, #3b82f6, #1d4ed8);
         }
-        
+
         .qubit-1 {
             background: linear-gradient(45deg, #ef4444, #dc2626);
         }
-        
+
         .qubit-superposition {
             background: linear-gradient(45deg, #3b82f6, #ef4444);
             animation: pulse 2s infinite;
         }
-        
+
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
         }
-        
+
         .quantum-gate {
             display: inline-block;
             background: #8b5cf6;
@@ -141,12 +150,12 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .quantum-gate:hover {
             background: #7c3aed;
             transform: scale(1.05);
         }
-        
+
         .algorithm-demo {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
@@ -154,37 +163,38 @@
             border-radius: 15px;
             margin: 25px 0;
         }
-        
+
         .demo-step {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             padding: 15px;
             margin: 10px 0;
             border-radius: 8px;
             border-left: 4px solid #34d399;
             transition: all 0.3s ease;
         }
-        
+
         .demo-step:hover {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             transform: translateX(10px);
         }
-        
+
         .quantum-quiz {
-            background: #fef3c7;
+            background: var(--bg);
             border: 2px solid #f59e0b;
             border-radius: 12px;
             padding: 20px;
             margin: 25px 0;
+            color: var(--text);
         }
-        
+
         .quiz-question {
             font-weight: bold;
             margin-bottom: 15px;
-            color: #92400e;
+            color: var(--primary-700);
         }
-        
+
         .quiz-option {
-            background: white;
+            background: var(--surface);
             padding: 10px 15px;
             margin: 8px 0;
             border-radius: 6px;
@@ -192,32 +202,32 @@
             transition: all 0.2s ease;
             border: 2px solid transparent;
         }
-        
+
         .quiz-option:hover {
             border-color: #f59e0b;
-            background: #fef3c7;
+            background: var(--accent);
         }
-        
+
         .quiz-option.correct {
             border-color: #10b981;
-            background: #d1fae5;
+            background: rgba(16, 185, 129, 0.1);
         }
-        
+
         .quiz-option.incorrect {
             border-color: #ef4444;
-            background: #fee2e2;
+            background: rgba(239, 68, 68, 0.1);
         }
-        
+
         .reading-time {
-            background: #e0f2fe;
-            color: #0277bd;
+            background: var(--accent);
+            color: var(--primary-700);
             padding: 10px 20px;
             border-radius: 20px;
             display: inline-block;
             margin-bottom: 20px;
             font-weight: bold;
         }
-        
+
         .code-block {
             background: #2d3748;
             color: #e2e8f0;
@@ -227,59 +237,70 @@
             margin: 20px 0;
             overflow-x: auto;
         }
-        
+
         .future-applications {
-            background: #f0f9ff;
+            background: var(--bg);
             border: 2px solid #0ea5e9;
             border-radius: 12px;
             padding: 25px;
             margin: 25px 0;
         }
-        
+
         .application-card {
-            background: white;
+            background: var(--surface);
             padding: 15px;
             margin: 10px 0;
             border-radius: 8px;
             border-left: 4px solid #0ea5e9;
+            color: var(--text);
         }
     </style>
 </head>
+
 <body>
     <header class="site-header"></header>
-    
+
     <main>
         <div class="quantum-header">
             <h1>🌌 The Quantum Realm Unveiled</h1>
             <p>A Journey Beyond Classical Computing into the Future of Technology</p>
         </div>
-        
+
         <section class="section">
             <div class="container">
                 <div class="reading-time">⏱️ 8 min read</div>
-                
+
                 <div style="margin-bottom: 20px;">
-                    <a href="blogs.html" style="color: #007bff; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                    <a href="blogs.html"
+                        style="color: var(--primary-700); text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
                         ← Back to Blogs
                     </a>
                 </div>
-                
+
                 <div class="quantum-concept">
                     <h3>🎯 What is Quantum Computing?</h3>
-                    <p>Imagine a computer that doesn't just process information in the binary world of 0s and 1s, but harnesses the mysterious principles of quantum mechanics to exist in multiple states simultaneously. This is quantum computing - a revolutionary paradigm that promises to solve problems that would take classical computers millennia to crack.</p>
-                    
-                    <p>While classical computers use bits that are definitively either 0 or 1, quantum computers use <strong>quantum bits (qubits)</strong> that can exist in a superposition of both states at once. It's like having a coin that spins in the air - until it lands, it's both heads and tails simultaneously.</p>
+                    <p>Imagine a computer that doesn't just process information in the binary world of 0s and 1s, but
+                        harnesses the mysterious principles of quantum mechanics to exist in multiple states
+                        simultaneously. This is quantum computing - a revolutionary paradigm that promises to solve
+                        problems that would take classical computers millennia to crack.</p>
+
+                    <p>While classical computers use bits that are definitively either 0 or 1, quantum computers use
+                        <strong>quantum bits (qubits)</strong> that can exist in a superposition of both states at once.
+                        It's like having a coin that spins in the air - until it lands, it's both heads and tails
+                        simultaneously.
+                    </p>
                 </div>
 
                 <div class="interactive-comparison">
                     <h3>⚡ Classical vs Quantum: The Ultimate Showdown</h3>
                     <p>Click the buttons below to explore the fundamental differences:</p>
-                    
+
                     <div class="comparison-toggle" onclick="showComparison('processing')">Processing Power</div>
                     <div class="comparison-toggle" onclick="showComparison('storage')">Information Storage</div>
                     <div class="comparison-toggle" onclick="showComparison('algorithms')">Problem Solving</div>
-                    <div class="comparison-toggle" onclick="showComparison('applications')">Real-World Applications</div>
-                    
+                    <div class="comparison-toggle" onclick="showComparison('applications')">Real-World Applications
+                    </div>
+
                     <div id="processing-comparison" class="comparison-content">
                         <h4>🔥 Processing Power Comparison</h4>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
@@ -299,7 +320,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div id="storage-comparison" class="comparison-content">
                         <h4>💾 Information Storage</h4>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
@@ -319,7 +340,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div id="algorithms-comparison" class="comparison-content">
                         <h4>🧮 Problem Solving Approaches</h4>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
@@ -339,7 +360,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div id="applications-comparison" class="comparison-content">
                         <h4>🌍 Real-World Applications</h4>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
@@ -364,28 +385,33 @@
                 <div class="quantum-concept">
                     <h3>🔬 The Quantum Mechanics Foundation</h3>
                     <p>Quantum computing leverages three fundamental quantum mechanical phenomena:</p>
-                    
+
                     <h4>1. 🌀 Superposition</h4>
-                    <p>A qubit can exist in a combination of both 0 and 1 states simultaneously. Think of it as a spinning coin - while spinning, it's neither heads nor tails, but both!</p>
-                    
+                    <p>A qubit can exist in a combination of both 0 and 1 states simultaneously. Think of it as a
+                        spinning coin - while spinning, it's neither heads nor tails, but both!</p>
+
                     <div class="qubit-simulator">
                         <h4>🎮 Interactive Qubit Simulator</h4>
                         <p>Click the qubit to see different states:</p>
-                        <div id="qubit-visual" class="qubit-visual qubit-superposition" onclick="cycleQubitState()"></div>
+                        <div id="qubit-visual" class="qubit-visual qubit-superposition" onclick="cycleQubitState()">
+                        </div>
                         <p id="qubit-state">Superposition: |0⟩ + |1⟩</p>
                         <p><em>In superposition, the qubit explores all possibilities at once!</em></p>
                     </div>
-                    
+
                     <h4>2. 🔗 Entanglement</h4>
-                    <p>Qubits can be mysteriously connected across any distance. When you measure one entangled qubit, you instantly know the state of its partner, no matter how far apart they are. Einstein called this "spooky action at a distance."</p>
-                    
+                    <p>Qubits can be mysteriously connected across any distance. When you measure one entangled qubit,
+                        you instantly know the state of its partner, no matter how far apart they are. Einstein called
+                        this "spooky action at a distance."</p>
+
                     <h4>3. 🌊 Interference</h4>
-                    <p>Quantum states can amplify correct answers and cancel out wrong ones, like waves in water that can either reinforce each other or cancel out.</p>
+                    <p>Quantum states can amplify correct answers and cancel out wrong ones, like waves in water that
+                        can either reinforce each other or cancel out.</p>
                 </div>
 
                 <div class="algorithm-demo">
                     <h3>🚀 Famous Quantum Algorithms in Action</h3>
-                    
+
                     <div class="demo-step">
                         <h4>🔐 Shor's Algorithm - Breaking Encryption</h4>
                         <p><strong>Problem:</strong> Factor large numbers (the basis of RSA encryption)</p>
@@ -393,7 +419,7 @@
                         <p><strong>Quantum Time:</strong> Hours or days!</p>
                         <p><strong>Impact:</strong> Could break most current internet security</p>
                     </div>
-                    
+
                     <div class="demo-step">
                         <h4>🔍 Grover's Algorithm - Super-Fast Search</h4>
                         <p><strong>Problem:</strong> Search unsorted database of N items</p>
@@ -401,7 +427,7 @@
                         <p><strong>Quantum Time:</strong> √N operations</p>
                         <p><strong>Impact:</strong> Quadratic speedup for search problems</p>
                     </div>
-                    
+
                     <div class="demo-step">
                         <h4>🧬 Quantum Simulation - Molecular Modeling</h4>
                         <p><strong>Problem:</strong> Simulate quantum systems (molecules, materials)</p>
@@ -413,25 +439,29 @@
 
                 <div class="quantum-concept">
                     <h3>🛠️ Building a Quantum Computer</h3>
-                    <p>Creating a quantum computer is like trying to balance a pencil on its tip while blindfolded during an earthquake. Here's why it's so challenging:</p>
-                    
+                    <p>Creating a quantum computer is like trying to balance a pencil on its tip while blindfolded
+                        during an earthquake. Here's why it's so challenging:</p>
+
                     <h4>❄️ Extreme Cold</h4>
-                    <p>Most quantum computers operate at temperatures colder than outer space (-273°C) to prevent quantum decoherence.</p>
-                    
+                    <p>Most quantum computers operate at temperatures colder than outer space (-273°C) to prevent
+                        quantum decoherence.</p>
+
                     <h4>🔇 Perfect Isolation</h4>
-                    <p>Qubits are incredibly fragile. Even the tiniest vibration, electromagnetic field, or temperature change can destroy quantum states.</p>
-                    
+                    <p>Qubits are incredibly fragile. Even the tiniest vibration, electromagnetic field, or temperature
+                        change can destroy quantum states.</p>
+
                     <h4>⚡ Quantum Gates</h4>
                     <p>Instead of logic gates, quantum computers use quantum gates that manipulate qubit states:</p>
-                    
+
                     <div style="text-align: center; margin: 20px 0;">
                         <div class="quantum-gate" onclick="showGateInfo('hadamard')">H (Hadamard)</div>
                         <div class="quantum-gate" onclick="showGateInfo('pauli')">X (Pauli-X)</div>
                         <div class="quantum-gate" onclick="showGateInfo('cnot')">CNOT</div>
                         <div class="quantum-gate" onclick="showGateInfo('phase')">Z (Phase)</div>
                     </div>
-                    
-                    <div id="gate-info" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0; display: none;">
+
+                    <div id="gate-info"
+                        style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0; display: none;">
                         <p id="gate-description"></p>
                     </div>
                 </div>
@@ -439,27 +469,30 @@
                 <div class="future-applications">
                     <h3>🔮 The Quantum Future</h3>
                     <p>Quantum computing will revolutionize multiple industries:</p>
-                    
+
                     <div class="application-card">
                         <h4>💊 Healthcare & Drug Discovery</h4>
-                        <p>Simulate molecular interactions to design new medicines and understand diseases at the quantum level.</p>
+                        <p>Simulate molecular interactions to design new medicines and understand diseases at the
+                            quantum level.</p>
                     </div>
-                    
+
                     <div class="application-card">
                         <h4>🔒 Cybersecurity</h4>
-                        <p>Quantum cryptography will provide unbreakable communication, while quantum computers will challenge current encryption.</p>
+                        <p>Quantum cryptography will provide unbreakable communication, while quantum computers will
+                            challenge current encryption.</p>
                     </div>
-                    
+
                     <div class="application-card">
                         <h4>🤖 Artificial Intelligence</h4>
-                        <p>Quantum machine learning could exponentially accelerate AI training and enable new types of neural networks.</p>
+                        <p>Quantum machine learning could exponentially accelerate AI training and enable new types of
+                            neural networks.</p>
                     </div>
-                    
+
                     <div class="application-card">
                         <h4>🌍 Climate Modeling</h4>
                         <p>Better weather prediction and climate change modeling through complex system simulations.</p>
                     </div>
-                    
+
                     <div class="application-card">
                         <h4>💰 Financial Optimization</h4>
                         <p>Portfolio optimization, risk analysis, and fraud detection with unprecedented accuracy.</p>
@@ -468,40 +501,50 @@
 
                 <div class="quantum-quiz">
                     <h3>🧠 Quantum Knowledge Check</h3>
-                    
+
                     <div class="quiz-question">What makes a qubit different from a classical bit?</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'correct')">It can exist in superposition (both 0 and 1 simultaneously)</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">It's faster than a classical bit</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'correct')">It can exist in superposition (both
+                        0 and 1 simultaneously)</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">It's faster than a classical bit
+                    </div>
                     <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">It uses less energy</div>
                     <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">It's smaller in size</div>
-                    
-                    <div class="quiz-question" style="margin-top: 25px;">Which quantum algorithm could break current internet encryption?</div>
+
+                    <div class="quiz-question" style="margin-top: 25px;">Which quantum algorithm could break current
+                        internet encryption?</div>
                     <div class="quiz-option" onclick="checkAnswer(this, 'correct')">Shor's Algorithm</div>
                     <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Grover's Algorithm</div>
                     <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Deutsch's Algorithm</div>
                     <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Simon's Algorithm</div>
-                    
-                    <div class="quiz-question" style="margin-top: 25px;">What temperature do most quantum computers need to operate?</div>
+
+                    <div class="quiz-question" style="margin-top: 25px;">What temperature do most quantum computers need
+                        to operate?</div>
                     <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Room temperature</div>
                     <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Freezing point of water</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'correct')">Colder than outer space (-273°C)</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'correct')">Colder than outer space (-273°C)
+                    </div>
                     <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Hot like the sun</div>
                 </div>
 
                 <div class="quantum-concept">
                     <h3>🎓 Getting Started with Quantum</h3>
                     <p>Ready to dive into the quantum world? Here's your roadmap:</p>
-                    
+
                     <ol style="padding-left: 25px;">
-                        <li style="margin: 15px 0;"><strong>📚 Learn the Basics:</strong> Start with linear algebra and basic quantum mechanics</li>
-                        <li style="margin: 15px 0;"><strong>💻 Try Quantum Programming:</strong> Use IBM Qiskit, Google Cirq, or Microsoft Q#</li>
-                        <li style="margin: 15px 0;"><strong>🔬 Experiment Online:</strong> Use cloud-based quantum computers from IBM, Google, or Amazon</li>
-                        <li style="margin: 15px 0;"><strong>🎮 Play Quantum Games:</strong> Try "Quantum Chess" or "Hello Quantum" mobile game</li>
-                        <li style="margin: 15px 0;"><strong>🏫 Take Courses:</strong> Enroll in quantum computing courses on Coursera, edX, or YouTube</li>
+                        <li style="margin: 15px 0;"><strong>📚 Learn the Basics:</strong> Start with linear algebra and
+                            basic quantum mechanics</li>
+                        <li style="margin: 15px 0;"><strong>💻 Try Quantum Programming:</strong> Use IBM Qiskit, Google
+                            Cirq, or Microsoft Q#</li>
+                        <li style="margin: 15px 0;"><strong>🔬 Experiment Online:</strong> Use cloud-based quantum
+                            computers from IBM, Google, or Amazon</li>
+                        <li style="margin: 15px 0;"><strong>🎮 Play Quantum Games:</strong> Try "Quantum Chess" or
+                            "Hello Quantum" mobile game</li>
+                        <li style="margin: 15px 0;"><strong>🏫 Take Courses:</strong> Enroll in quantum computing
+                            courses on Coursera, edX, or YouTube</li>
                     </ol>
-                    
+
                     <div class="code-block">
-<pre><code># Your first quantum program in Qiskit
+                        <pre><code># Your first quantum program in Qiskit
 from qiskit import QuantumCircuit, execute, Aer
 
 # Create a quantum circuit with 1 qubit
@@ -525,21 +568,30 @@ print("Results:", counts)
 
                 <div class="quantum-concept">
                     <h3>🌟 The Quantum Revolution Ahead</h3>
-                    <p>We're standing at the threshold of a quantum revolution. While classical computers will continue to handle everyday tasks, quantum computers will tackle humanity's greatest challenges - from curing diseases to understanding the universe itself.</p>
-                    
-                    <p>The quantum realm isn't just about faster computers; it's about fundamentally different ways of processing information that mirror the strange and beautiful laws of quantum mechanics that govern our universe.</p>
-                    
+                    <p>We're standing at the threshold of a quantum revolution. While classical computers will continue
+                        to handle everyday tasks, quantum computers will tackle humanity's greatest challenges - from
+                        curing diseases to understanding the universe itself.</p>
+
+                    <p>The quantum realm isn't just about faster computers; it's about fundamentally different ways of
+                        processing information that mirror the strange and beautiful laws of quantum mechanics that
+                        govern our universe.</p>
+
                     <p><strong>The future is quantum, and it's closer than you think!</strong></p>
                 </div>
 
                 <div class="quantum-concept">
                     <h3>📚 Dive Deeper</h3>
                     <ul style="padding-left: 20px;">
-                        <li style="margin: 10px 0;"><a href="https://qiskit.org/textbook/" target="_blank">Qiskit Textbook - Free Quantum Computing Course</a></li>
-                        <li style="margin: 10px 0;"><a href="https://quantum-computing.ibm.com/" target="_blank">IBM Quantum Experience</a></li>
-                        <li style="margin: 10px 0;"><a href="https://www.microsoft.com/en-us/quantum" target="_blank">Microsoft Quantum Development Kit</a></li>
-                        <li style="margin: 10px 0;"><a href="https://quantumai.google/" target="_blank">Google Quantum AI</a></li>
-                        <li style="margin: 10px 0;"><a href="https://www.youtube.com/watch?v=JhHMJCUmq28" target="_blank">Quantum Computing Explained (3Blue1Brown)</a></li>
+                        <li style="margin: 10px 0;"><a href="https://qiskit.org/textbook/" target="_blank">Qiskit
+                                Textbook - Free Quantum Computing Course</a></li>
+                        <li style="margin: 10px 0;"><a href="https://quantum-computing.ibm.com/" target="_blank">IBM
+                                Quantum Experience</a></li>
+                        <li style="margin: 10px 0;"><a href="https://www.microsoft.com/en-us/quantum"
+                                target="_blank">Microsoft Quantum Development Kit</a></li>
+                        <li style="margin: 10px 0;"><a href="https://quantumai.google/" target="_blank">Google Quantum
+                                AI</a></li>
+                        <li style="margin: 10px 0;"><a href="https://www.youtube.com/watch?v=JhHMJCUmq28"
+                                target="_blank">Quantum Computing Explained (3Blue1Brown)</a></li>
                     </ul>
                 </div>
             </div>
@@ -555,11 +607,11 @@ print("Results:", counts)
     <script src="script.js"></script>
     <script>
         let qubitState = 'superposition';
-        
+
         function cycleQubitState() {
             const qubitVisual = document.getElementById('qubit-visual');
             const qubitStateText = document.getElementById('qubit-state');
-            
+
             if (qubitState === 'superposition') {
                 qubitState = '0';
                 qubitVisual.className = 'qubit-visual qubit-0';
@@ -574,56 +626,56 @@ print("Results:", counts)
                 qubitStateText.textContent = 'Superposition: |0⟩ + |1⟩';
             }
         }
-        
+
         function showComparison(type) {
             // Hide all comparison contents
             document.querySelectorAll('.comparison-content').forEach(content => {
                 content.classList.remove('active');
             });
-            
+
             // Show selected comparison
             const comparison = document.getElementById(type + '-comparison');
             if (comparison) {
                 comparison.classList.add('active');
             }
         }
-        
+
         function showGateInfo(gate) {
             const gateInfo = document.getElementById('gate-info');
             const gateDescription = document.getElementById('gate-description');
-            
+
             const descriptions = {
                 'hadamard': 'Hadamard Gate (H): Creates superposition by putting a qubit into an equal probability of being 0 or 1.',
                 'pauli': 'Pauli-X Gate (X): Quantum equivalent of classical NOT gate - flips |0⟩ to |1⟩ and vice versa.',
                 'cnot': 'CNOT Gate: Controlled-NOT gate that flips the target qubit only if the control qubit is |1⟩. Creates entanglement.',
                 'phase': 'Phase Gate (Z): Adds a phase shift to the |1⟩ state while leaving |0⟩ unchanged.'
             };
-            
+
             gateDescription.textContent = descriptions[gate];
             gateInfo.style.display = 'block';
-            
+
             // Hide after 5 seconds
             setTimeout(() => {
                 gateInfo.style.display = 'none';
             }, 5000);
         }
-        
+
         function checkAnswer(element, result) {
             // Remove previous classes from this question's options
             const questionOptions = element.parentNode.querySelectorAll('.quiz-option');
             questionOptions.forEach(option => {
                 option.classList.remove('correct', 'incorrect');
             });
-            
+
             // Add result class
             element.classList.add(result);
-            
+
             // Auto-reset after 3 seconds
             setTimeout(() => {
                 element.classList.remove('correct', 'incorrect');
             }, 3000);
         }
-        
+
         // Auto-hide comparison contents after 10 seconds
         setInterval(() => {
             document.querySelectorAll('.comparison-content').forEach(content => {
@@ -632,4 +684,5 @@ print("Results:", counts)
         }, 15000);
     </script>
 </body>
+
 </html>
