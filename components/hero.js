@@ -10,8 +10,8 @@ function renderHero() {
             <span class="title">Vice President — Software Engineering</span>
           </h1>
           <p class="lead">
-            15+ years building scalable systems and leading engineering teams.
-            Specialized in Java Full Stack development, cloud architecture, and technical leadership.
+            15+ years building scalable systems, leading engineering teams, and integrating modern AI workflows.
+            Specialized in Java Full Stack development, Cloud Architecture, GitHub Copilot adoption, and RAG systems.
           </p>
           <div class="hero-actions">
             <a class="btn primary" href="#projects">

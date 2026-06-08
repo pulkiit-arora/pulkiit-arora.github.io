@@ -3,9 +3,9 @@ function renderExperience() {
     {
       title: "Vice President — Morgan Stanley",
       period: "10/2021 − Present",
-      description: "Leading the architecture and development of mission-critical systems with a focus on scalability and resilience. Spearheaded the adoption of cloud-native patterns and enhanced system observability through Splunk and Grafana implementation. Mentoring engineering teams and driving technical excellence across projects.",
-      achievements: "Successfully migrated legacy systems to modern cloud architecture, resulting in 40% improved performance. Established robust CI/CD pipelines and DevOps practices, reducing deployment time by 60%.",
-      focus: "Cloud Architecture • Team Leadership • System Design",
+      description: "Leading the architecture of mission-critical systems and integrating modern AI capabilities (RAG, Model Context Protocol) to improve developer workflows and system capabilities. Spearheaded the enterprise adoption of AI coding assistants (GitHub Copilot), driving significant productivity gains. Mentoring engineering teams and driving technical excellence.",
+      achievements: "Spearheaded the enterprise-wide rollout of GitHub Copilot, training 50+ developers and improving coding speed by 35%. Architected and built internal RAG (Retrieval-Augmented Generation) systems utilizing Model Context Protocol (MCP) to connect enterprise knowledge bases to LLMs. Successfully migrated legacy systems to modern cloud architecture, resulting in 40% improved performance.",
+      focus: "Generative AI & RAG • GitHub Copilot • Model Context Protocol (MCP) • Cloud Architecture",
       expanded: true
     },
     {

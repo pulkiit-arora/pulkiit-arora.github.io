@@ -8,7 +8,7 @@ function renderCertifications() {
         {
             name: "AWS Certified Solutions Architect – Associate",
             badgeUrl: "https://images.credly.com/size/340x340/images/0e284c3f-5164-4b21-8660-0d84737941bc/image.png",
-            credlyUrl: "https://www.credly.com/badges/ed06ccb5-2030-4b16-91c3-1afc50e3c40a/public_url"
+            credlyUrl: "https://www.credly.com/badges/ed06ccb5-2030-4b16-91c3-1afc50e3c40a"
         }
     ];
 

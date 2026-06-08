@@ -1,7 +1,9 @@
 function renderSkills() {
   const skills = [
     "Java Full Stack Development",
-    "Generative AI",
+    "Generative AI & RAG",
+    "GitHub Copilot",
+    "Model Context Protocol (MCP)",
     "Cloud Technologies",
     "Database Design",
     "Spring Boot",

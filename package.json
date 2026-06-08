@@ -1,0 +1,10 @@
+{
+  "name": "pulkit-arora-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio website of Pulkit Arora",
+  "scripts": {
+    "build-pdf": "node scripts/build-pdf.js",
+    "edit": "node scripts/server.js"
+  },
+  "private": true
+}

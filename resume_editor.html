@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pulkit Arora - Resume Editor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --bg-card: rgba(17, 24, 39, 0.7);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --success: #10b981;
+      --error: #ef4444;
+      --font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation Header */
+    .editor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: rgba(10, 15, 30, 0.8);
+      border-bottom: 1px solid var(--border-color);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-badge {
+      background: linear-gradient(135deg, var(--primary), #a855f7);
+      color: white;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+
+    .header-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-main);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #4f46e5);
+      color: white;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--error);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 6px 12px;
+      font-size: 0.8rem;
+    }
+
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.25);
+    }
+
+    /* Split Pane Workspace */
+    .workspace {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 73px);
+      overflow: hidden;
+    }
+
+    /* Left panel: Form editor */
+    .editor-pane {
+      width: 50%;
+      height: 100%;
+      overflow-y: auto;
+      padding: 24px;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, rgba(9, 13, 22, 0.6) 100%);
+      border-right: 1px solid var(--border-color);
+    }
+
+    /* Right panel: PDF Preview */
+    .preview-pane {
+      width: 50%;
+      height: 100%;
+      background: #1e293b;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .preview-header {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .preview-frame-container {
+      width: 100%;
+      max-width: 800px;
+      flex: 1;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      display: flex;
+    }
+
+    .preview-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: white;
+    }
+
+    /* Form Accordions & Styling */
+    .accordion-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+    }
+
+    .accordion-trigger {
+      width: 100%;
+      padding: 18px 24px;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Outfit', sans-serif;
+      transition: background 0.2s ease;
+    }
+
+    .accordion-trigger:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .accordion-trigger::after {
+      content: '▼';
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      transition: transform 0.2s ease;
+    }
+
+    .accordion-section.active .accordion-trigger::after {
+      transform: rotate(180deg);
+    }
+
+    .accordion-content {
+      padding: 0 24px 24px 24px;
+      display: none;
+      border-top: 1px solid var(--border-color);
+      margin-top: -1px;
+    }
+
+    .accordion-section.active .accordion-content {
+      display: block;
+    }
+
+    .form-group {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 16px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    input, textarea {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px 14px;
+      color: var(--text-main);
+      font-family: var(--font-family);
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Items Lists (Jobs, Projects) */
+    .item-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 16px;
+      position: relative;
+    }
+
+    .item-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .item-card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .add-btn-container {
+      margin-top: 16px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 14px 24px;
+      background: #10b981;
+      color: white;
+      border-radius: 8px;
+      font-weight: 600;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 100;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-error {
+      background: #ef4444;
+    }
+
+    /* Loading Spinner overlay */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(9, 13, 22, 0.75);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+      backdrop-filter: blur(4px);
+    }
+
+    .overlay.show {
+      display: flex;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(99, 102, 241, 0.1);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s infinite linear;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .overlay-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="editor-header">
+    <div class="header-logo">
+      <div class="logo-badge">PDF BUILDER</div>
+      <h1 class="header-title">Resume Editor</h1>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" onclick="triggerManualPrint()">
+        Manual PDF Print
+      </button>
+      <button class="btn btn-primary" id="saveBtn" onclick="saveResume()">
+        Save & Compile PDF
+      </button>
+    </div>
+  </header>
+
+  <!-- Workspace -->
+  <div class="workspace">
+    
+    <!-- Left Pane: Editor Form -->
+    <div class="editor-pane" id="editorForm">
+      
+      <!-- Section: Contact Details -->
+      <div class="accordion-section active">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">Header & Contact Information</button>
+        <div class="accordion-content">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fullName">Full Name</label>
+              <input type="text" id="fullName" oninput="onFieldChange('name', this.value)">
+            </div>
+            <div class="form-group">
+              <label for="jobTitle">Job Title</label>
+              <input type="text" id="jobTitle" oninput="onFieldChange('title', this.value)">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="location">Location</label>
+              <input type="text" id="location" oninput="onFieldChange('location', this.value)">
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="text" id="phone" oninput="onFieldChange('phone', this.value)">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" oninput="onFieldChange('email', this.value)">
+            </div>
+            <div class="form-group">
+              <label for="linkedin">LinkedIn Profile (Text)</label>
+              <input type="text" id="linkedin" oninput="onFieldChange('linkedin', this.value)">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="portfolio">Portfolio Website (Text)</label>
+            <input type="text" id="portfolio" oninput="onFieldChange('portfolio', this.value)">
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Summary -->
+      <div class="accordion-section">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">Professional Summary</button>
+        <div class="accordion-content">
+          <div class="form-group">
+            <label for="summaryText">Professional Summary</label>
+            <textarea id="summaryText" oninput="onFieldChange('summary', this.value)"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Skills -->
+      <div class="accordion-section">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">Skills</button>
+        <div class="accordion-content">
+          <div class="form-group">
+            <label for="skillsText">Skills (Comma-separated)</label>
+            <textarea id="skillsText" placeholder="Java, Spring Boot, system design" oninput="onFieldChange('skills', this.value)"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Work Experience -->
+      <div class="accordion-section">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">Work Experience</button>
+        <div class="accordion-content">
+          <div id="jobsContainer"></div>
+          <div class="add-btn-container">
+            <button class="btn btn-secondary" style="font-size: 0.8rem; padding: 6px 12px;" onclick="addJobCard()">+ Add Job</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Key Projects -->
+      <div class="accordion-section">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">Key Projects</button>
+        <div class="accordion-content">
+          <div id="projectsContainer"></div>
+          <div class="add-btn-container">
+            <button class="btn btn-secondary" style="font-size: 0.8rem; padding: 6px 12px;" onclick="addProjectCard()">+ Add Project</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Certifications -->
+      <div class="accordion-section">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">Certifications</button>
+        <div class="accordion-content">
+          <div class="form-group">
+            <label for="certsText">Certifications (Comma-separated)</label>
+            <textarea id="certsText" placeholder="AWS Certified, Certified Kubernetes Administrator" oninput="onFieldChange('certifications', this.value)"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Interests -->
+      <div class="accordion-section">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">Interests</button>
+        <div class="accordion-content">
+          <div class="form-group">
+            <label for="interestsText">Interests (Comma-separated)</label>
+            <textarea id="interestsText" placeholder="Reading, Coding, Chess" oninput="onFieldChange('interests', this.value)"></textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Pane: Live Preview -->
+    <div class="preview-pane">
+      <div class="preview-header">
+        <span>📄 PDF PRINT PREVIEW</span>
+        <span id="previewStatus">Syncing...</span>
+      </div>
+      <div class="preview-frame-container">
+        <iframe class="preview-frame" id="previewIframe" title="Resume live preview"></iframe>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <div class="overlay-text" id="overlayText">Saving & Compiling PDF...</div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <span id="toastMessage">Resume Saved Successfully!</span>
+  </div>
+
+  <!-- Main JavaScript Logic -->
+  <script>
+    let resumeDoc = null;
+
+    // Toggle accordion sections
+    function toggleAccordion(button) {
+      const section = button.parentElement;
+      const isActive = section.classList.contains('active');
+      
+      // Close all sections (optional: uncomment for strict accordion behavior)
+      // document.querySelectorAll('.accordion-section').forEach(s => s.classList.remove('active'));
+      
+      if (isActive) {
+        section.classList.remove('active');
+      } else {
+        section.classList.add('active');
+      }
+    }
+
+    // Initialize Page
+    window.addEventListener('DOMContentLoaded', () => {
+      loadResume();
+    });
+
+    // Fetch and parse the resume HTML
+    async function loadResume() {
+      showLoading('Loading Resume HTML...');
+      try {
+        const response = await fetch('/pulkit_arora_resume.html');
+        if (!response.ok) {
+          throw new Error('Could not fetch pulkit_arora_resume.html');
+        }
+        const htmlText = await response.text();
+        const parser = new DOMParser();
+        resumeDoc = parser.parseFromString(htmlText, 'text/html');
+        
+        populateForm();
+        updatePreview();
+        hideLoading();
+      } catch (err) {
+        console.error('Error loading resume:', err);
+        hideLoading();
+        showToast('Error loading pulkit_arora_resume.html. Ensure server is running.', true);
+      }
+    }
+
+    // Helper to find a section based on its visual H2 title
+    function getSectionByHeader(title) {
+      if (!resumeDoc) return null;
+      const h2s = Array.from(resumeDoc.querySelectorAll('h2'));
+      const header = h2s.find(h2 => h2.textContent.trim().toLowerCase() === title.toLowerCase());
+      return header ? header.closest('section') : null;
+    }
+
+    // Update the live iframe preview
+    function updatePreview() {
+      if (!resumeDoc) return;
+      const iframe = document.getElementById('previewIframe');
+      
+      // We write the parsed DOM's outer HTML back into the iframe
+      const htmlString = resumeDoc.documentElement.outerHTML;
+      iframe.srcdoc = htmlString;
+      
+      const statusSpan = document.getElementById('previewStatus');
+      statusSpan.textContent = 'Synced';
+      statusSpan.style.color = 'var(--success)';
+    }
+
+    // Trigger update status visual cue
+    function markUnsynced() {
+      const statusSpan = document.getElementById('previewStatus');
+      statusSpan.textContent = 'Draft (Unsaved)';
+      statusSpan.style.color = '#eab308';
+    }
+
+    // Read details from the HTML DOM and fill in form fields
+    function populateForm() {
+      if (!resumeDoc) return;
+
+      // 1. Header & Contact
+      const headerH1 = resumeDoc.querySelector('header h1');
+      document.getElementById('fullName').value = headerH1 ? headerH1.textContent.trim() : '';
+
+      const contactInfo = resumeDoc.querySelector('.contact-info');
+      if (contactInfo) {
+        const strong = contactInfo.querySelector('strong');
+        document.getElementById('jobTitle').value = strong ? strong.textContent.trim() : '';
+
+        // Extract location: get text content, split by line breaks or parse nodes
+        // Location is typically the second line, we can parse by innerHTML split
+        const lines = contactInfo.innerHTML.split('<br>');
+        if (lines.length > 1) {
+          const locText = document.createElement('div');
+          locText.innerHTML = lines[1];
+          document.getElementById('location').value = locText.textContent.trim();
+        }
+
+        const phoneA = contactInfo.querySelector('a[href^="tel:"]');
+        document.getElementById('phone').value = phoneA ? phoneA.textContent.trim() : '';
+
+        const emailA = contactInfo.querySelector('a[href^="mailto:"]');
+        document.getElementById('email').value = emailA ? emailA.textContent.trim() : '';
+
+        const linkedinA = contactInfo.querySelector('a[href*="linkedin.com"]');
+        document.getElementById('linkedin').value = linkedinA ? linkedinA.textContent.trim() : '';
+
+        const portfolioA = contactInfo.querySelector('a[href*="pulkiit-arora.github.io"]');
+        document.getElementById('portfolio').value = portfolioA ? portfolioA.textContent.trim() : '';
+      }
+
+      // 2. Summary
+      const summarySection = getSectionByHeader('Professional Summary');
+      if (summarySection) {
+        const p = summarySection.querySelector('p');
+        document.getElementById('summaryText').value = p ? p.textContent.trim() : '';
+      }
+
+      // 3. Skills
+      const skillsSection = getSectionByHeader('Skills');
+      if (skillsSection) {
+        const lis = Array.from(skillsSection.querySelectorAll('.skill-item'));
+        document.getElementById('skillsText').value = lis.map(li => li.textContent.trim()).join(', ');
+      }
+
+      // 4. Certifications
+      const certsSection = getSectionByHeader('Certifications');
+      if (certsSection) {
+        const lis = Array.from(certsSection.querySelectorAll('.skill-item'));
+        document.getElementById('certsText').value = lis.map(li => li.textContent.trim()).join(', ');
+      }
+
+      // 5. Interests
+      const interestsSection = getSectionByHeader('Interests');
+      if (interestsSection) {
+        const p = interestsSection.querySelector('p');
+        document.getElementById('interestsText').value = p ? p.textContent.trim() : '';
+      }
+
+      // 6. Work Experience
+      populateJobs();
+
+      // 7. Key Projects
+      populateProjects();
+    }
+
+    // Populate dynamic job experience lists
+    function populateJobs() {
+      const container = document.getElementById('jobsContainer');
+      container.innerHTML = '';
+      
+      const expSection = getSectionByHeader('Work Experience');
+      if (!expSection) return;
+
+      const jobs = expSection.querySelectorAll('.job');
+      jobs.forEach((job, index) => {
+        const titleSpan = job.querySelector('.job-title');
+        const companySpan = job.querySelector('.job-company');
+        const dateSpan = job.querySelector('.job-date');
+        const descP = job.querySelector('.job-description p');
+        const bullets = Array.from(job.querySelectorAll('.job-description ul li')).map(li => li.textContent.trim());
+
+        const card = createJobCardElement(
+          index,
+          titleSpan ? titleSpan.textContent.trim() : '',
+          companySpan ? companySpan.textContent.trim() : '',
+          dateSpan ? dateSpan.textContent.trim() : '',
+          descP ? descP.textContent.trim() : '',
+          bullets.join('\n')
+        );
+        container.appendChild(card);
+      });
+    }
+
+    function createJobCardElement(index, title, company, date, desc, bullets) {
+      const card = document.createElement('div');
+      card.className = 'item-card';
+      card.dataset.index = index;
+      card.innerHTML = `
+        <div class="item-card-header">
+          <span class="item-card-title">Job #${index + 1}</span>
+          <button class="btn btn-danger" onclick="deleteJob(${index})">Delete</button>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Job Title</label>
+            <input type="text" value="${title}" oninput="onJobChange(${index}, 'title', this.value)">
+          </div>
+          <div class="form-group">
+            <label>Company</label>
+            <input type="text" value="${company}" oninput="onJobChange(${index}, 'company', this.value)">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Dates (e.g. 10/2021 − Present)</label>
+          <input type="text" value="${date}" oninput="onJobChange(${index}, 'date', this.value)">
+        </div>
+        <div class="form-group">
+          <label>Description (Paragraph)</label>
+          <textarea oninput="onJobChange(${index}, 'desc', this.value)">${desc}</textarea>
+        </div>
+        <div class="form-group">
+          <label>Bullet Points / Achievements (One per line)</label>
+          <textarea style="min-height: 100px;" placeholder="Successfully migrated..." oninput="onJobChange(${index}, 'bullets', this.value)">${bullets}</textarea>
+        </div>
+      `;
+      return card;
+    }
+
+    // Populate dynamic projects lists
+    function populateProjects() {
+      const container = document.getElementById('projectsContainer');
+      container.innerHTML = '';
+
+      const projSection = getSectionByHeader('Key Projects');
+      if (!projSection) return;
+
+      const projects = projSection.querySelectorAll('.project');
+      projects.forEach((proj, index) => {
+        const titleH4 = proj.querySelector('h4');
+        const durationEm = proj.querySelector('p em');
+        // The second paragraph is usually the description, or we take all paragraphs except duration
+        const descP = proj.querySelectorAll('p')[1];
+
+        const card = createProjectCardElement(
+          index,
+          titleH4 ? titleH4.textContent.trim() : '',
+          durationEm ? durationEm.textContent.trim() : '',
+          descP ? descP.textContent.trim() : ''
+        );
+        container.appendChild(card);
+      });
+    }
+
+    function createProjectCardElement(index, title, duration, desc) {
+      const card = document.createElement('div');
+      card.className = 'item-card';
+      card.dataset.index = index;
+      card.innerHTML = `
+        <div class="item-card-header">
+          <span class="item-card-title">Project #${index + 1}</span>
+          <button class="btn btn-danger" onclick="deleteProject(${index})">Delete</button>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Project Name</label>
+            <input type="text" value="${title}" oninput="onProjectChange(${index}, 'title', this.value)">
+          </div>
+          <div class="form-group">
+            <label>Duration / Details (e.g. Duration: 72 months)</label>
+            <input type="text" value="${duration}" oninput="onProjectChange(${index}, 'duration', this.value)">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea oninput="onProjectChange(${index}, 'desc', this.value)">${desc}</textarea>
+        </div>
+      `;
+      return card;
+    }
+
+    // Handle updates on standard fields
+    function onFieldChange(field, value) {
+      if (!resumeDoc) return;
+      markUnsynced();
+
+      if (field === 'name') {
+        const h1 = resumeDoc.querySelector('header h1');
+        if (h1) h1.textContent = value;
+      }
+      
+      else if (field === 'title') {
+        const strong = resumeDoc.querySelector('.contact-info strong');
+        if (strong) strong.textContent = value;
+      }
+      
+      else if (field === 'location') {
+        const contactInfo = resumeDoc.querySelector('.contact-info');
+        if (contactInfo) {
+          const lines = contactInfo.innerHTML.split('<br>');
+          lines[1] = `\n            ${value}`;
+          contactInfo.innerHTML = lines.join('<br>');
+        }
+      }
+      
+      else if (field === 'phone') {
+        const a = resumeDoc.querySelector('.contact-info a[href^="tel:"]');
+        if (a) {
+          a.textContent = value;
+          a.href = `tel:${value.replace(/\s+/g, '')}`;
+        }
+      }
+      
+      else if (field === 'email') {
+        const a = resumeDoc.querySelector('.contact-info a[href^="mailto:"]');
+        if (a) {
+          a.textContent = value;
+          a.href = `mailto:${value.trim()}`;
+        }
+      }
+      
+      else if (field === 'linkedin') {
+        const a = resumeDoc.querySelector('.contact-info a[href*="linkedin.com"]');
+        if (a) {
+          a.textContent = value;
+          a.href = `https://www.linkedin.com/in/${value.trim()}`;
+        }
+      }
+      
+      else if (field === 'portfolio') {
+        const a = resumeDoc.querySelector('.contact-info a[href*="pulkiit-arora.github.io"]');
+        if (a) {
+          a.textContent = value;
+          a.href = value.startsWith('http') ? value.trim() : `https://${value.trim()}`;
+        }
+      }
+      
+      else if (field === 'summary') {
+        const section = getSectionByHeader('Professional Summary');
+        if (section) {
+          const p = section.querySelector('p');
+          if (p) p.textContent = value;
+        }
+      }
+      
+      else if (field === 'interests') {
+        const section = getSectionByHeader('Interests');
+        if (section) {
+          const p = section.querySelector('p');
+          if (p) p.textContent = value;
+        }
+      }
+      
+      else if (field === 'skills') {
+        const section = getSectionByHeader('Skills');
+        if (section) {
+          const ul = section.querySelector('.skills-list');
+          if (ul) {
+            ul.innerHTML = '';
+            const list = value.split(',').map(s => s.trim()).filter(s => s.length > 0);
+            list.forEach(skill => {
+              const li = resumeDoc.createElement('li');
+              li.className = 'skill-item';
+              li.textContent = skill;
+              ul.appendChild(li);
+            });
+          }
+        }
+      }
+
+      else if (field === 'certifications') {
+        const section = getSectionByHeader('Certifications');
+        if (section) {
+          const ul = section.querySelector('.skills-list');
+          if (ul) {
+            ul.innerHTML = '';
+            const list = value.split(',').map(s => s.trim()).filter(s => s.length > 0);
+            list.forEach(cert => {
+              const li = resumeDoc.createElement('li');
+              li.className = 'skill-item';
+              li.textContent = cert;
+              ul.appendChild(li);
+            });
+          }
+        }
+      }
+
+      updatePreview();
+    }
+
+    // Handle Job Experience Changes
+    function onJobChange(index, field, value) {
+      if (!resumeDoc) return;
+      markUnsynced();
+
+      const expSection = getSectionByHeader('Work Experience');
+      if (!expSection) return;
+
+      const jobs = expSection.querySelectorAll('.job');
+      const job = jobs[index];
+      if (!job) return;
+
+      if (field === 'title') {
+        const titleSpan = job.querySelector('.job-title');
+        if (titleSpan) titleSpan.textContent = value;
+      }
+      
+      else if (field === 'company') {
+        const companySpan = job.querySelector('.job-company');
+        if (companySpan) companySpan.textContent = value;
+      }
+      
+      else if (field === 'date') {
+        const dateSpan = job.querySelector('.job-date');
+        if (dateSpan) dateSpan.textContent = value;
+      }
+      
+      else if (field === 'desc') {
+        const descP = job.querySelector('.job-description p');
+        if (descP) descP.textContent = value;
+      }
+      
+      else if (field === 'bullets') {
+        const ul = job.querySelector('.job-description ul');
+        if (ul) {
+          ul.innerHTML = '';
+          const points = value.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+          points.forEach(point => {
+            const li = resumeDoc.createElement('li');
+            li.innerHTML = point.startsWith('<strong>') || point.includes('Key Focus') ? point : point;
+            
+            // Re-bold Key Focus if written plain to keep original layout style
+            if (point.toLowerCase().startsWith('key focus:')) {
+              const parts = point.split(':');
+              li.innerHTML = `<strong>${parts[0]}:</strong>${parts.slice(1).join(':')}`;
+            } else {
+              li.textContent = point;
+            }
+            ul.appendChild(li);
+          });
+        }
+      }
+
+      updatePreview();
+    }
+
+    // Delete Job
+    function deleteJob(index) {
+      if (!confirm('Are you sure you want to delete this job entry?')) return;
+      
+      const expSection = getSectionByHeader('Work Experience');
+      if (!expSection) return;
+
+      const jobs = expSection.querySelectorAll('.job');
+      if (jobs[index]) {
+        jobs[index].remove();
+        populateJobs(); // Re-index form cards
+        updatePreview();
+        markUnsynced();
+      }
+    }
+
+    // Add Job Card
+    function addJobCard() {
+      const expSection = getSectionByHeader('Work Experience');
+      if (!expSection) return;
+
+      // Create standard job markup
+      const jobDiv = resumeDoc.createElement('div');
+      jobDiv.className = 'job';
+      jobDiv.innerHTML = `
+        <div class="job-header">
+            <div>
+                <span class="job-title">New Job Title</span> — <span class="job-company">Company Name</span>
+            </div>
+            <span class="job-date">01/2026 − Present</span>
+        </div>
+        <div class="job-description">
+            <p>Describe your main responsibilities and achievements in this role.</p>
+            <ul>
+                <li>Implemented scalable features resulting in performance gains.</li>
+                <li><strong>Key Focus:</strong> Cloud Architectures, Leadership.</li>
+            </ul>
+        </div>
+      `;
+
+      expSection.appendChild(jobDiv);
+      populateJobs();
+      updatePreview();
+      markUnsynced();
+    }
+
+    // Handle Project Changes
+    function onProjectChange(index, field, value) {
+      if (!resumeDoc) return;
+      markUnsynced();
+
+      const projSection = getSectionByHeader('Key Projects');
+      if (!projSection) return;
+
+      const projects = projSection.querySelectorAll('.project');
+      const project = projects[index];
+      if (!project) return;
+
+      if (field === 'title') {
+        const titleH4 = project.querySelector('h4');
+        if (titleH4) titleH4.textContent = value;
+      }
+      
+      else if (field === 'duration') {
+        const em = project.querySelector('p em');
+        if (em) em.textContent = value;
+      }
+      
+      else if (field === 'desc') {
+        const paragraphs = project.querySelectorAll('p');
+        if (paragraphs.length > 1) {
+          paragraphs[1].textContent = value;
+        } else {
+          // If second paragraph is missing, create it
+          const newP = resumeDoc.createElement('p');
+          newP.textContent = value;
+          project.appendChild(newP);
+        }
+      }
+
+      updatePreview();
+    }
+
+    // Delete Project
+    function deleteProject(index) {
+      if (!confirm('Are you sure you want to delete this project entry?')) return;
+
+      const projSection = getSectionByHeader('Key Projects');
+      if (!projSection) return;
+
+      const projects = projSection.querySelectorAll('.project');
+      if (projects[index]) {
+        projects[index].remove();
+        populateProjects(); // Re-index form cards
+        updatePreview();
+        markUnsynced();
+      }
+    }
+
+    // Add Project Card
+    function addProjectCard() {
+      const projSection = getSectionByHeader('Key Projects');
+      if (!projSection) return;
+
+      // Create standard project markup
+      const projDiv = resumeDoc.createElement('div');
+      projDiv.className = 'project';
+      projDiv.innerHTML = `
+        <h4 style="margin-bottom: 5px;">New Project Title</h4>
+        <p style="margin-top: 0;"><em>Duration: 12 months</em></p>
+        <p>Brief summary describing the project, architecture, technologies used, and your individual contributions.</p>
+      `;
+
+      projSection.appendChild(projDiv);
+      populateProjects();
+      updatePreview();
+      markUnsynced();
+    }
+
+    // Save and Compile PDF using the Node Server Endpoint
+    async function saveResume() {
+      if (!resumeDoc) return;
+
+      showLoading('Saving HTML and Compiling PDF Resume...');
+      
+      const payload = {
+        html: resumeDoc.documentElement.outerHTML
+      };
+
+      try {
+        const response = await fetch('/api/save', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          showToast('Resume saved and PDF compiled successfully!');
+          updatePreview();
+        } else {
+          throw new Error(result.error || 'Server returned an error');
+        }
+      } catch (err) {
+        console.error('Save failed:', err);
+        showToast(err.message || 'Failed to save resume. Is the server running?', true);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // Trigger Print layout in iframe
+    function triggerManualPrint() {
+      const iframe = document.getElementById('previewIframe');
+      iframe.contentWindow.focus();
+      iframe.contentWindow.print();
+    }
+
+    // Loading overlay controls
+    function showLoading(text) {
+      document.getElementById('overlayText').textContent = text;
+      document.getElementById('loadingOverlay').classList.add('show');
+    }
+
+    function hideLoading() {
+      document.getElementById('loadingOverlay').classList.remove('show');
+    }
+
+    // Show toast message
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toast');
+      const msg = document.getElementById('toastMessage');
+      
+      msg.textContent = message;
+      if (isError) {
+        toast.classList.add('toast-error');
+      } else {
+        toast.classList.remove('toast-error');
+      }
+      
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4000);
+    }
+  </script>
+</body>
+</html>
