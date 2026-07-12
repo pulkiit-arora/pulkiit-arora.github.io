@@ -6,6 +6,7 @@ function renderSkills() {
     "Model Context Protocol (MCP)",
     "Cloud Technologies",
     "Database Design",
+    "Snowflake",
     "Spring Boot",
     "Hibernate",
     "Angular",
